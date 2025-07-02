@@ -51,7 +51,7 @@ websiteRouter.get("/status/websites/:websiteId", authMiddleware, async (req: Req
             return;
         }
 
-        res.status(200).json({ website });
+        res.status(200).json({ url: website.url, id: website.id, user_id: website.user_id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server failure", error });
