@@ -3,12 +3,13 @@ import jwt from "jsonwebtoken";
 
 export function authMiddleware( req: Request, res: Response, next: NextFunction ): void {
     try {
-        const header = req.headers.authorization;
+        const header = req.headers.token;
         if (!header) {
             res.json({ message: "Unauthorized" });
             return;
         };
 
+        // @ts-ignore
         const data = jwt.verify(header, process.env.JWT_SECRET!);
         req.userId = data.sub as string;
         next();
