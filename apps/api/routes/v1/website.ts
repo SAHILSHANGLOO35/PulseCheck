@@ -41,7 +41,7 @@ websiteRouter.get("/status/websites/:websiteId", authMiddleware, async (req: Req
                     orderBy: {
                         createdAt: "desc",
                     },
-                    take: 1,
+                    take: 10,
                 },
             },
         });
