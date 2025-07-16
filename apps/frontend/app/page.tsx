@@ -31,7 +31,9 @@ export default function Home() {
 
         <div className="absolute inset-0 flex items-center justify-center mask-b-from-85%">
           <div className="relative w-[500px] h-[500px] flex items-center justify-center">
-            <Globe className="z-10" />
+            <div>
+              {/* <Globe className="z-10" /> */}
+            </div>
 
             {/* Orbital Ring 1 - Closest orbit */}
             <div className="absolute flex items-center justify-center">
@@ -160,16 +162,30 @@ export default function Home() {
         </div>
 
         {/* Navbar */}
-        <div className="top-4 flex items-center justify-between w-full fixed z-50">
+        <div className="absolute top-4 flex items-center justify-between w-full z-50">
           {/* Left Logo */}
           <div className="text-white text-2xl font-semibold flex items-center justify-center gap-x-3 ml-28">
             <div>
               <Image src={pulseIcon} alt="Pulse Icon" width={30} height={30} />
             </div>
-            <div>PulseCheck</div>
+            <div className="bg-clip-text bg-gradient-to-r from-pink-200 via-rose-300 to-red-400 text-transparent font-medium">PulseCheck</div>
           </div>
 
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          <motion.div className="fixed left-1/2 transform -translate-x-1/2"
+            initial={{
+              y: -80,
+              opacity: 0
+            }}
+            animate={{
+              y: 0,
+              opacity: 1
+            }}
+            transition={{
+              duration: 0.3,
+              type: "spring",
+              mass: 0.5
+            }}
+          >
             <div className="max-w-xl h-10 rounded-3xl flex mx-auto  border border-white/15 backdrop-blur-3xl bg-white/5 text-white box-shadow-rgba(0, 0, 0, 0.2) 0px 60px 40px -7px">
               {navItems.map((item, index) => (
                 <motion.div
@@ -196,7 +212,7 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           <div className="text-white text-md font-normal flex items-center justify-center gap-x-3 mr-28 border border-white/25 px-4 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150">
             <div>
@@ -208,7 +224,7 @@ export default function Home() {
 
         <div className="absolute top-48 ml-28 mr-28 flex items-center">
           <div className="flex flex-col max-w-[550px] gap-6">
-            <span className="text-7xl font-semibold bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight">
+            <span className="text-7xl font-semibold bg-clip-text bg-linear-to-r from-orange-200 via-red-300 to-pink-400 text-transparent tracking-tight">
               Your Website's <span>Health,</span> <span>Under</span> Watch.
             </span>
             <span className="text-neutral-300">
@@ -248,11 +264,14 @@ export default function Home() {
           </div>
         </div>
       </div>
-      
-      <div className="min-h-screen w-screen flex items-center justify-center py-20 px-28 relative z-20">
+
+      <div className="flex items-center py-32 px-28 relative z-20">
         <div className="max-w-6xl mx-auto flex flex-col items-center justify-center">
-          <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight mb-2 py-6">
-            Powerful Features at Your <span className="text-7xl font-pacifico tracking-widest">Fingertips</span>
+          <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
+            Powerful Features at Your{" "}
+            <span className="text-7xl font-pacifico tracking-widest">
+              Fingertips
+            </span>
           </h2>
           <div className="flex items-center justify-center">
             <div>
@@ -264,18 +283,70 @@ export default function Home() {
                 className="filter blur-xs"
               />
             </div>
-            <div className="absolute grid grid-cols-4 row-span-2 gap-4 min-w-4xl">
-              <div className="h-80 col-span-2 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs">
-                Hello
+            <div className="absolute grid grid-cols-4 auto-rows-[180px] gap-4 min-w-4xl">
+              {/* Real Time Monitoring Card */}
+              <div className="col-span-2 row-span-2 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="bg-transparent flex items-center justify-center p-4"></div>
+                <div className="flex flex-col p-2 px-4 absolute items-center justify-center mt-28 gap-4"></div>
               </div>
-              <div className="h-80 col-span-2 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs">
-                Hello
+
+              {/* Instant Alerts Card */}
+              <div className="col-span-2 row-span-1 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="flex flex-col p-2 px-4 absolute items-center justify-center mt-28 gap-4"></div>
               </div>
-              <div className="h-80 col-span-2 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs">
-                Hello
+
+              {/* Multi-Location Monitoring Card */}
+              <div className="col-span-2 row-span-1 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="bg-transparent flex items-center justify-center p-4"></div>
               </div>
-              <div className="h-80 col-span-2 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs">
-                Hello
+
+              {/* 4th Grid */}
+              <div className="col-span-4 h-[120px] bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="bg-transparent flex items-center justify-center p-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-center pb-32 px-28 relative">
+        <div className="max-w-6xl mx-auto flex flex-col items-center justify-center">
+          <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
+            How to get{" "}
+            <span className="text-7xl font-pacifico tracking-widest">
+              Started
+            </span>
+          </h2>
+          <div className="flex items-center justify-center">
+            <div>
+              <Image
+                src="/handImage.png"
+                alt="Hand Image"
+                width={1200}
+                height={1200}
+                className="filter blur-xs"
+              />
+            </div>
+            <div className="absolute grid grid-cols-4 auto-rows-[180px] gap-4 min-w-4xl">
+              {/* Real Time Monitoring Card */}
+              <div className="col-span-2 row-span-2 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="bg-transparent flex items-center justify-center p-4"></div>
+                <div className="flex flex-col p-2 px-4 absolute items-center justify-center mt-28 gap-4"></div>
+              </div>
+
+              {/* Instant Alerts Card */}
+              <div className="col-span-2 row-span-1 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="flex flex-col p-2 px-4 absolute items-center justify-center mt-28 gap-4"></div>
+              </div>
+
+              {/* Multi-Location Monitoring Card */}
+              <div className="col-span-2 row-span-1 bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="bg-transparent flex items-center justify-center p-4"></div>
+              </div>
+
+              {/* 4th Grid */}
+              <div className="col-span-4 h-[120px] bg-transparent border border-white/25 rounded-lg backdrop:filter backdrop-blur-xs flex flex-col items-center">
+                <div className="bg-transparent flex items-center justify-center p-4"></div>
               </div>
             </div>
           </div>
