@@ -4,9 +4,24 @@ import { Particles } from "@/components/magicui/particles";
 import pulseIcon from "../public/PulseIcon.png";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { LayoutDashboard, User } from "lucide-react";
+import {
+  LayoutDashboard,
+  LayoutDashboardIcon,
+  LucideLink2,
+  User,
+} from "lucide-react";
 import { useRef, useState } from "react";
 import WorldMap from "@/components/ui/world-map";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import Typography from "@mui/material/Typography";
+import PersonIcon from "@mui/icons-material/Person";
+import InsightsIcon from "@mui/icons-material/Insights";
 
 export default function Home() {
   const navItems = [
@@ -18,6 +33,7 @@ export default function Home() {
 
   const [hovered, setHovered] = useState<number | null>(null);
   const scrollRef = useRef(null);
+  const imageScrollRef = useRef(null);
 
   return (
     <div
@@ -27,7 +43,7 @@ export default function Home() {
       }}
     >
       <div className="relative flex flex-col w-full overflow-x-hidden">
-        <section className="relative h-screen w-screen mb-32">
+        <section className="relative h-screen w-screen">
           <div>
             <Particles
               color="#ffffff"
@@ -184,7 +200,7 @@ export default function Home() {
             </div>
 
             <motion.div
-              className="fixed left-1/2 transform -translate-x-1/2"
+              className="absolute left-1/2 transform -translate-x-1/2"
               initial={{
                 y: -80,
                 opacity: 0,
@@ -216,9 +232,15 @@ export default function Home() {
                         className="absolute bg-neutral-900 rounded-full w-full h-full"
                         transition={{
                           type: "spring",
-                          layout: { duration: 0.3 },
-                          mass: 0.5,
-                          stiffness: 100,
+                          duration: 1.2,
+                          bounce: 0.1,
+                          mass: 0.8,
+                          stiffness: 80,
+                          damping: 20,
+                          opacity: {
+                            duration: 1.0,
+                            ease: "easeOut",
+                          },
                         }}
                       />
                     )}
@@ -231,14 +253,37 @@ export default function Home() {
               <div>
                 <User size={20} />
               </div>
-              <div>Create Account</div>
+              <div className="text-shadow-xs">Create Account</div>
             </div>
           </div>
           <div className="absolute top-48 ml-28 mr-28 flex items-center">
             <div className="flex flex-col max-w-[550px] gap-6">
-              <span className="text-7xl font-semibold bg-clip-text bg-gradient-to-r from-orange-200 via-red-300 to-pink-400 text-transparent tracking-tight">
+              <motion.span
+                className="text-7xl font-semibold bg-clip-text bg-gradient-to-r from-orange-200 via-red-300 to-pink-400 text-transparent tracking-tight"
+                initial={{
+                  x: -100,
+                  opacity: 0,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                transition={{
+                  type: "spring",
+                  duration: 1.2,
+                  bounce: 0.1,
+                  mass: 0.8,
+                  stiffness: 80,
+                  damping: 20,
+                  opacity: {
+                    duration: 1.0,
+                    ease: "easeOut",
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 Your Website's <span>Health,</span> <span>Under</span> Watch.
-              </span>
+              </motion.span>
               <span className="text-neutral-300">
                 We Keep an Eye on Your Site - So You Don't Have To.
               </span>
@@ -247,7 +292,7 @@ export default function Home() {
                   <div>
                     <User size={20} />
                   </div>
-                  <div>Demo</div>
+                  <div className="text-shadow-xs">Demo</div>
                 </div>
                 <div className="text-white text-md font-normal flex items-center justify-center gap-x-2 border border-white/25 px-2 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150 w-40">
                   <div>
@@ -278,14 +323,14 @@ export default function Home() {
         </section>
 
         <section className="h-screen flex items-center mt-32 pt-32 pb-32 px-28 relative z-20">
-          <div className="max-w-6xl mx-auto flex flex-col items-center justify-center">
+          <div className="max-w-6xl mx-auto flex flex-col items-center justify-center ">
             <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
               Powerful Features at Your{" "}
               <span className="text-7xl font-pacifico tracking-widest">
                 Fingertips
               </span>
             </h2>
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center mask-b-from-60%">
               <div>
                 <Image
                   src="/handImage.png"
@@ -301,7 +346,20 @@ export default function Home() {
               >
                 {/* 1st Card */}
                 <motion.div
-                  className="col-span-2 row-span-2 bg-transparent border border-white/25 rounded-lg backdrop-filter backdrop-blur-xs flex flex-col items-center overflow-hidden"
+                  className="col-span-2 row-span-2 rounded-xl backdrop-filter backdrop-blur-md flex flex-col items-center overflow-hidden relative shadow-xl"
+                  style={{
+                    background: `
+                      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                      linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, transparent 100%)
+                    `,
+                    backdropFilter: "blur(20px) saturate(180%)",
+                    boxShadow: `
+                      inset 0 1px 0 rgba(255,255,255,0.2),
+                      0 8px 32px rgba(0,0,0,0.3),
+                      0 0 0 1px rgba(255,255,255,0.1)
+                    `,
+                  }}
                   initial={{
                     x: -100,
                     opacity: 0,
@@ -311,25 +369,32 @@ export default function Home() {
                     x: 0,
                   }}
                   transition={{
-                    type: "tween",
-                    duration: 0.5,
-                    opacity: { ease: "linear" },
+                    type: "spring",
+                    duration: 1.2,
+                    bounce: 0.1,
+                    mass: 0.8,
+                    stiffness: 80,
+                    damping: 20,
+                    opacity: {
+                      duration: 1.0,
+                      ease: "easeOut",
+                    },
                   }}
                   viewport={{ root: scrollRef, amount: 0.5, once: true }}
                 >
                   <div className="flex flex-col items-start">
                     <div className="bg-white/5 h-10 px-4 rounded-sm mt-4 flex items-center justify-center backdrop-filter backdrop-blur-lg">
-                      <div className="text-neutral-200">
+                      <div className="text-neutral-200 text-shadow-2xs">
                         Real Time Website Monitoring...
                       </div>
                     </div>
                     <div className="bg-white/5 h-8 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
-                      <div className="text-neutral-200">
+                      <div className="text-neutral-200 text-shadow-2xs">
                         Local Insight & Instant Alerts
                       </div>
                     </div>
                     <div className="bg-white/5 h-8 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
-                      <div className="text-neutral-200">
+                      <div className="text-neutral-200 text-shadow-2xs">
                         Reliable & Efficient
                       </div>
                     </div>
@@ -353,7 +418,20 @@ export default function Home() {
 
                 {/* 2nd card */}
                 <motion.div
-                  className="col-span-2 row-span-1 bg-transparent border border-white/25 rounded-lg backdrop-filter backdrop-blur-xs flex flex-col items-center"
+                  className="col-span-2 row-span-1 rounded-xl backdrop-filter backdrop-blur-md flex flex-col items-center overflow-hidden relative shadow-xl"
+                  style={{
+                    background: `
+                      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                      linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, transparent 100%)
+                    `,
+                    backdropFilter: "blur(20px) saturate(180%)",
+                    boxShadow: `
+                      inset 0 1px 0 rgba(255,255,255,0.2),
+                      0 8px 32px rgba(0,0,0,0.3),
+                      0 0 0 1px rgba(255,255,255,0.1)
+                    `,
+                  }}
                   initial={{
                     y: -100,
                     opacity: 0,
@@ -363,20 +441,27 @@ export default function Home() {
                     y: 0,
                   }}
                   transition={{
-                    type: "tween",
-                    duration: 0.5,
-                    opacity: { ease: "linear" },
+                    type: "spring",
+                    duration: 1.2,
+                    bounce: 0.1,
+                    mass: 0.8,
+                    stiffness: 80,
+                    damping: 20,
+                    opacity: {
+                      duration: 1.0,
+                      ease: "easeOut",
+                    },
                   }}
                   viewport={{ root: scrollRef, amount: 0.5, once: true }}
                 >
                   <div className="flex flex-col p-2 px-4 absolute items-center justify-center gap-4">
                     <div className="bg-white/5 h-10 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
-                      <div className="text-neutral-200">
+                      <div className="text-neutral-200 text-shadow-2xs">
                         Multi-Region Health Checks
                       </div>
                     </div>
-                    <div className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify">
-                      <div className="text-neutral-200 text-[15px]">
+                    <div className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify px-4 py-2 rounded-sm">
+                      <div className="text-neutral-200 text-[15px] text-shadow-2xs">
                         Monitor your websites from various global locations.
                         Understand how your site performs for users in different
                         countries and continents.
@@ -387,7 +472,20 @@ export default function Home() {
 
                 {/* 3rd Card */}
                 <motion.div
-                  className="col-span-2 row-span-1 bg-transparent border border-white/25 rounded-lg backdrop-filter backdrop-blur-xs flex flex-col items-center"
+                  className="col-span-2 row-span-1 rounded-xl backdrop-filter backdrop-blur-md flex flex-col items-center overflow-hidden relative shadow-xl"
+                  style={{
+                    background: `
+                      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                      linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, transparent 100%)
+                    `,
+                    backdropFilter: "blur(20px) saturate(180%)",
+                    boxShadow: `
+                      inset 0 1px 0 rgba(255,255,255,0.2),
+                      0 8px 32px rgba(0,0,0,0.3),
+                      0 0 0 1px rgba(255,255,255,0.1)
+                    `,
+                  }}
                   initial={{
                     y: 100,
                     opacity: 0,
@@ -397,23 +495,29 @@ export default function Home() {
                     y: 0,
                   }}
                   transition={{
-                    type: "tween",
-                    duration: 0.5,
-                    opacity: { ease: "linear" },
+                    type: "spring",
+                    duration: 1.2,
+                    bounce: 0.1,
+                    mass: 0.8,
+                    stiffness: 80,
+                    damping: 20,
+                    opacity: {
+                      duration: 1.0,
+                      ease: "easeOut",
+                    },
                   }}
-                  viewport={{ root: scrollRef, amount: 0.5, once: true }}
+                  viewport={{ root: scrollRef, amount: 0.3, once: true }}
                 >
                   <div className="flex flex-col p-2 px-4 absolute items-center justify-center gap-4">
                     <div className="bg-white/5 h-10 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
-                      <div className="text-neutral-200">
+                      <div className="text-neutral-200 text-shadow-2xs">
                         Website Status at a Glance
                       </div>
                     </div>
-                    <div className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify">
-                      <div className="text-neutral-200 text-[15px]">
-                        Quickly see if your entered websites are up or down with
-                        clear, easy-to-understand indicators. No complex jargon,
-                        just immediate status updates.
+                    <div className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify px-4 py-2 rounded-sm">
+                      <div className="text-neutral-200 text-[15px] text-shadow-2xs">
+                        Quickly see if your entered websites are up or down. No
+                        complex jargon, just immediate status updates.
                       </div>
                     </div>
                   </div>
@@ -423,26 +527,206 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="h-screen flex items-center pt-32 pb-32 px-28 relative">
-          {/* Maintained py-32 for consistency */}
-          <div className="max-w-6xl mx-auto flex flex-col items-center justify-center">
-            <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
-              How to get{" "}
-              <span className="text-7xl font-pacifico tracking-widest">
-                Started
-              </span>
-            </h2>
-            <div className="flex items-center justify-end">
-              <div className="w-[1000px] h-auto flex">
+        <section className="min-h-screen flex items-center pt-32 pb-32 px-28 relative">
+          <div className="w-full mx-auto flex flex-col justify-center items-center">
+            <div className="flex text-center">
+              <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
+                How to get{" "}
+                <span className="text-7xl font-pacifico tracking-widest">
+                  Started
+                </span>
+              </h2>
+            </div>
+            <div
+              className="flex mt-10 w-screen pl-28 items-center"
+              ref={imageScrollRef}
+            >
+              <div className="flex flex-col">
+                <motion.div
+                  className="relative bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-400 text-transparent text-6xl font-semibold pb-2"
+                  initial={{
+                    x: -100,
+                    opacity: 0,
+                  }}
+                  whileInView={{
+                    x: 0,
+                    opacity: 1,
+                  }}
+                  transition={{
+                    type: "spring",
+                    duration: 1.2,
+                    bounce: 0.1,
+                    mass: 0.8,
+                    stiffness: 80,
+                    damping: 20,
+                    opacity: {
+                      duration: 1.0,
+                      ease: "easeOut",
+                    },
+                  }}
+                  viewport={{ root: imageScrollRef, amount: 0.3, once: true }}
+                >
+                  Your Journey to Seamless Monitoring Begins Here
+                </motion.div>
+                <div className="text-neutral-400 mt-2 text-[18px] tracking-wider relative min-w-2xl text-left">
+                  On the right, see your intuitive dashboard. Easily track
+                  metrics, monitor status, and get insights with a few clicks.
+                  No data overload - just clear, actionable info.
+                </div>
+                <div className="text-neutral-100">
+                  <Timeline position="alternate">
+                    <TimelineItem>
+                      <TimelineOppositeContent
+                        sx={{ m: "auto 0" }}
+                        align="right"
+                        variant="body2"
+                        color="oklch(87% 0 0)"
+                      >
+                        Step 1
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineConnector />
+                        <TimelineDot color="primary" variant="outlined">
+                          <PersonIcon />
+                        </TimelineDot>
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent sx={{ py: "12px", px: 2 }}>
+                        <Typography variant="h6" component="span">
+                          Create Your Account
+                        </Typography>
+                        <Typography>
+                          Sign up in seconds and explore our features.
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineOppositeContent
+                        sx={{ m: "auto 0" }}
+                        variant="body2"
+                        color="oklch(87% 0 0)"
+                      >
+                        Step 2
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineConnector />
+                        <TimelineDot color="primary">
+                          <LucideLink2 />{" "}
+                        </TimelineDot>
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent sx={{ py: "12px", px: 2 }}>
+                        <Typography variant="h6" component="span">
+                          Connect Your Data
+                        </Typography>
+                        <Typography>
+                          Easily integrate your systems with our guided setup.
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineOppositeContent
+                        sx={{ m: "auto 0" }}
+                        align="right"
+                        variant="body2"
+                        color="oklch(87% 0 0)"
+                      >
+                        Step 3
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineConnector />
+                        <TimelineDot color="primary" variant="outlined">
+                          <LayoutDashboardIcon />{" "}
+                        </TimelineDot>
+                        <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
+                      </TimelineSeparator>
+                      <TimelineContent sx={{ py: "12px", px: 2 }}>
+                        <Typography variant="h6" component="span">
+                          Gain Insights
+                        </Typography>
+                        <Typography>
+                          Access your dashboard and see real-time performance.
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                    <TimelineItem>
+                      <TimelineOppositeContent
+                        sx={{ m: "auto 0" }}
+                        variant="body2"
+                        color="oklch(87% 0 0)"
+                      >
+                        Step 4
+                      </TimelineOppositeContent>
+                      <TimelineSeparator>
+                        <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
+                        <TimelineDot color="secondary">
+                          <InsightsIcon />{" "}
+                        </TimelineDot>
+                        <TimelineConnector />
+                      </TimelineSeparator>
+                      <TimelineContent sx={{ py: "12px", px: 2 }}>
+                        <Typography variant="h6" component="span">
+                          Optimize & Grow
+                        </Typography>
+                        <Typography>
+                          Leverage data to make informed decisions and scale.
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                  </Timeline>
+                </div>
+              </div>
+              <motion.div
+                className="h-[600px] w-[860px] flex-shrink-0 relative -right-30"
+                initial={{
+                  x: 100,
+                  opacity: 0,
+                }}
+                whileInView={{
+                  x: 0,
+                  opacity: 1,
+                }}
+                transition={{
+                  type: "spring",
+                  duration: 1.2,
+                  bounce: 0.1,
+                  mass: 0.8,
+                  stiffness: 80,
+                  damping: 20,
+                  opacity: {
+                    duration: 1.0,
+                    ease: "easeOut",
+                  },
+                }}
+                viewport={{ root: imageScrollRef, amount: 0.3, once: true }}
+              >
                 <Image
                   src="/Betterstack.jpg"
                   alt="Hand Image"
-                  width={1000}
-                  height={1000}
-                  className="object-fit"
+                  width={700}
+                  height={700}
+                  className="object-cover w-full h-full rounded-2xl"
                 />
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <section className="min-h-screen flex items-center pt-32 pb-32 px-28 relative">
+          <div className="w-full mx-auto flex flex-col justify-center items-center">
+            <div className="flex flex-col text-center">
+              <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2">
+                Got any Questions in Mind ?
+              </h2>
+              <div className="flex text-5xl font-medium items-baseline justify-center gap-4 bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pb-2">
+                <span>We've got</span>
+                <span className="text-7xl font-pacifico tracking-widest">
+                  answers
+                </span>
               </div>
-              <div className="absolute min-w-4xl"></div>
+            </div>
+            <div>
+              {/* TODO SECTION - ADD ACCORDIAN HERE */}
             </div>
           </div>
         </section>
