@@ -28,6 +28,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  SiClerk,
+  SiGithub,
+  SiNextdotjs,
+  SiPostgresql,
+  SiRedis,
+  SiShadcnui,
+  SiSupabase,
+  SiTailwindcss,
+} from "react-icons/si";
+import {
+  FaDocker,
+  FaGithub,
+  FaLinkedin,
+  FaReact,
+  FaXTwitter,
+} from "react-icons/fa6";
 
 export default function Home() {
   const navItems = [
@@ -63,7 +80,33 @@ export default function Home() {
     },
   };
 
-  const faqScrollRef = useRef(null);
+  const hoverVariants: Variants = {
+    whileHover: {
+      scale: 1.2,
+      rotate: -1.02,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 10,
+      },
+    },
+  };
+
+  const reverseMarqueeVariants: Variants = {
+    animate: {
+      x: ["0%", "-100%"],
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 30,
+          ease: "linear",
+        },
+      },
+    },
+  };
+
+  const commonTileClasses = `rounded-lg flex items-center justify-center h-20 min-w-max text-neutral-500`;
 
   return (
     <div
@@ -73,7 +116,7 @@ export default function Home() {
       }}
     >
       <div className="relative flex flex-col w-full overflow-x-hidden">
-        <section className="relative h-screen w-screen">
+        <section className="relative h-screen w-screen ">
           <div>
             <Particles
               color="#ffffff"
@@ -81,9 +124,10 @@ export default function Home() {
               vy={0}
               size={0.2}
               quantity={250}
+              className="mask-b-from-90%"
             />
           </div>
-          <div className="absolute inset-0 flex items-center justify-center mask-b-from-85%">
+          <div className="absolute inset-0 flex items-center justify-center mask-b-from-90%">
             <div className="relative w-[500px] h-[500px] flex items-center justify-center">
               <div>{/* <Globe className="z-10" /> */}</div>
 
@@ -354,12 +398,35 @@ export default function Home() {
 
         <section className="h-screen flex items-center mt-32 pt-32 pb-32 px-28 relative z-20">
           <div className="max-w-6xl mx-auto flex flex-col items-center justify-center ">
-            <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
+            <motion.h2
+              className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8"
+              initial={{
+                y: 30,
+                opacity: 0,
+              }}
+              whileInView={{
+                y: 0,
+                opacity: 1,
+              }}
+              transition={{
+                type: "spring",
+                duration: 1.3,
+                bounce: 0.1,
+                mass: 0.8,
+                stiffness: 100,
+                damping: 20,
+                opacity: {
+                  duration: 1.0,
+                  ease: "easeInOut",
+                },
+              }}
+              viewport={{ once: true }}
+            >
               Powerful Features at Your{" "}
               <span className="text-7xl font-pacifico tracking-widest">
                 Fingertips
               </span>
-            </h2>
+            </motion.h2>
             <div className="flex items-center justify-center mask-b-from-60%">
               <div>
                 <Image
@@ -413,22 +480,55 @@ export default function Home() {
                   viewport={{ root: scrollRef, amount: 0.5, once: true }}
                 >
                   <div className="flex flex-col items-start">
-                    <div className="bg-white/5 h-10 px-4 rounded-sm mt-4 flex items-center justify-center backdrop-filter backdrop-blur-lg">
+                    <motion.div
+                      className="bg-white/5 h-10 px-4 rounded-sm mt-4 flex items-center justify-center backdrop-filter backdrop-blur-lg"
+                      whileHover={{
+                        scale: 1.02,
+                        rotate: -0.3,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 10,
+                      }}
+                    >
                       <div className="text-neutral-200 text-shadow-2xs">
                         Real Time Website Monitoring...
                       </div>
-                    </div>
-                    <div className="bg-white/5 h-8 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
+                    </motion.div>
+                    <motion.div
+                      className="bg-white/5 h-8 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg"
+                      whileHover={{
+                        scale: 1.02,
+                        rotate: -0.3,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 10,
+                      }}
+                    >
                       <div className="text-neutral-200 text-shadow-2xs">
                         Local Insight & Instant Alerts
                       </div>
-                    </div>
-                    <div className="bg-white/5 h-8 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
+                    </motion.div>
+                    <motion.div
+                      className="bg-white/5 h-8 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg"
+                      whileHover={{
+                        scale: 1.02,
+                        rotate: -0.3,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 10,
+                      }}
+                    >
                       <div className="text-neutral-200 text-shadow-2xs">
                         Reliable & Efficient
                       </div>
-                    </div>
-                    <div className="bg-white/5 h-8 w-64 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
+                    </motion.div>
+                    <div className="bg-white/5 h-8 w-64 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg mask-b-from-40%">
                       <div className="text-neutral-200"></div>
                     </div>
                   </div>
@@ -485,18 +585,40 @@ export default function Home() {
                   viewport={{ root: scrollRef, amount: 0.5, once: true }}
                 >
                   <div className="flex flex-col p-2 px-4 absolute items-center justify-center gap-4">
-                    <div className="bg-white/5 h-10 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
+                    <motion.div
+                      className="bg-white/5 h-10 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg"
+                      whileHover={{
+                        scale: 1.02,
+                        rotate: -0.3,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 10,
+                      }}
+                    >
                       <div className="text-neutral-200 text-shadow-2xs">
                         Multi-Region Health Checks
                       </div>
-                    </div>
-                    <div className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify px-4 py-2 rounded-sm">
+                    </motion.div>
+                    <motion.div
+                      className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify px-4 py-2 rounded-sm"
+                      whileHover={{
+                        scale: 1.02,
+                        rotate: -0.3,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 10,
+                      }}
+                    >
                       <div className="text-neutral-200 text-[15px] text-shadow-2xs">
                         Monitor your websites from various global locations.
                         Understand how your site performs for users in different
                         countries and continents.
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
                 </motion.div>
 
@@ -539,17 +661,39 @@ export default function Home() {
                   viewport={{ root: scrollRef, amount: 0.3, once: true }}
                 >
                   <div className="flex flex-col p-2 px-4 absolute items-center justify-center gap-4">
-                    <div className="bg-white/5 h-10 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg">
+                    <motion.div
+                      className="bg-white/5 h-10 px-4 rounded-sm mt-3 flex items-center justify-center backdrop-filter backdrop-blur-lg"
+                      whileHover={{
+                        scale: 1.02,
+                        rotate: -0.3,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 10,
+                      }}
+                    >
                       <div className="text-neutral-200 text-shadow-2xs">
                         Website Status at a Glance
                       </div>
-                    </div>
-                    <div className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify px-4 py-2 rounded-sm">
+                    </motion.div>
+                    <motion.div
+                      className="mt-2 flex items-center justify-center backdrop-filter backdrop-blur-lg text-justify px-4 py-2 rounded-sm"
+                      whileHover={{
+                        scale: 1.02,
+                        rotate: -0.3,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 10,
+                      }}
+                    >
                       <div className="text-neutral-200 text-[15px] text-shadow-2xs">
                         Quickly see if your entered websites are up or down. No
                         complex jargon, just immediate status updates.
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
                 </motion.div>
               </div>
@@ -560,12 +704,35 @@ export default function Home() {
         <section className="min-h-screen flex items-center pt-32 px-28 relative">
           <div className="w-full mx-auto flex flex-col justify-center items-center">
             <div className="flex text-center">
-              <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
+              <motion.h2
+                className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8"
+                initial={{
+                  y: 30,
+                  opacity: 0,
+                }}
+                whileInView={{
+                  y: 0,
+                  opacity: 1,
+                }}
+                transition={{
+                  type: "spring",
+                  duration: 1.3,
+                  bounce: 0.1,
+                  mass: 0.8,
+                  stiffness: 100,
+                  damping: 20,
+                  opacity: {
+                    duration: 1.0,
+                    ease: "easeInOut",
+                  },
+                }}
+                viewport={{ once: true }}
+              >
                 How to get{" "}
                 <span className="text-7xl font-pacifico tracking-widest">
                   Started
                 </span>
-              </h2>
+              </motion.h2>
             </div>
             <div
               className="flex mt-10 w-screen pl-28 items-center mask-b-from-85%"
@@ -742,9 +909,32 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="min-h-screen flex items-center pt-32 pb-32 px-28 relative">
+        <section className="min-h-screen flex items-center pt-32 px-28 relative">
           <div className="w-full mx-auto flex flex-col justify-center items-center mask-b-from-90%">
-            <div className="flex flex-col items-center justify-center pb-8">
+            <motion.div
+              className="flex flex-col items-center justify-center pb-8"
+              initial={{
+                y: 30,
+                opacity: 0,
+              }}
+              whileInView={{
+                y: 0,
+                opacity: 1,
+              }}
+              transition={{
+                type: "spring",
+                duration: 1.3,
+                bounce: 0.1,
+                mass: 0.8,
+                stiffness: 100,
+                damping: 20,
+                opacity: {
+                  duration: 1.0,
+                  ease: "easeInOut",
+                },
+              }}
+              viewport={{ once: true }}
+            >
               <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2">
                 Got any Questions in Mind ?
               </h2>
@@ -758,14 +948,13 @@ export default function Home() {
                 Get clear answers to how our platform makes it easy to
                 understand and improve your Website's performance.
               </div>
-            </div>
+            </motion.div>
             <motion.div
               className="min-w-4xl max-w-4xl"
               variants={containerVariants}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.3 }}
-
             >
               <Accordion type="single" collapsible>
                 <motion.div variants={itemVariants}>
@@ -823,6 +1012,253 @@ export default function Home() {
               </Accordion>
             </motion.div>
           </div>
+        </section>
+
+        <section className="min-h-screen items-center justify-center flex pt-32 mb-56 px-28 relative">
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-32 bg-gradient-to-b from-black via-neutral-900/15 to-transparent rounded-t-full opacity-60 blur-3xl rotate-180"
+            style={{ width: "1400px", height: "700px" }}
+          ></div>
+
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-24 bg-gradient-to-b from-neutral-800 via-neutral-900/50 to-transparent rounded-t-full rotate-180 opacity-40 blur-2xl"
+            style={{ width: "1000px", height: "500px", marginBottom: "8px" }}
+          ></div>
+
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[350px] h-16 rounded-t-full opacity-20 rotate-180 blur-3xl"
+            style={{
+              width: "700px",
+              height: "350px",
+              marginBottom: "16px",
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='10' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              backgroundSize: "100px 100px",
+            }}
+          ></div>
+
+          <div className="absolute w-full mx-auto flex flex-col justify-center items-center pt-32 top-0 z-50">
+            <div className="flex flex-col items-center justify-center pb-8">
+              <motion.div
+                initial={{
+                  y: 30,
+                  opacity: 0,
+                }}
+                whileInView={{
+                  y: 0,
+                  opacity: 1,
+                }}
+                transition={{
+                  type: "spring",
+                  duration: 1.3,
+                  bounce: 0.1,
+                  mass: 0.8,
+                  stiffness: 100,
+                  damping: 20,
+                  opacity: {
+                    duration: 1.0,
+                    ease: "easeInOut",
+                  },
+                }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pb-2 text-center max-w-2xl">
+                  Start Monitoring Your
+                </h2>
+                <div className="flex text-2xl font-medium items-baseline justify-center gap-4 bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pb-8">
+                  <span className="text-5xl">Website</span>
+                  <span className="text-7xl font-pacifico tracking-widest">
+                    Today
+                  </span>
+                </div>
+                <div className="text-neutral-400 text-lg max-w-xl text-center pb-8">
+                  Downtime is costly. We make it preventable. Keep your site
+                  healthy, no expertise needed.
+                </div>
+                <div className="text-neutral-300 text-xl max-w-xl text-center">
+                  Powering Insights with Cutting-Edge Technology
+                </div>
+              </motion.div>
+              <div
+                className="relative overflow-hidden w-[calc(100%-16px)] mt-8 text-neutral-50 max-w-3xl"
+                style={{
+                  maskImage:
+                    "linear-gradient(to right, transparent, white 10%, white 90%, transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to right, transparent, white 10%, white 90%, transparent)",
+                }}
+              >
+                <motion.div
+                  className="flex items-center whitespace-nowrap"
+                  variants={reverseMarqueeVariants}
+                  animate="animate"
+                >
+                  {[...Array(2)].map((_, index) => (
+                    <div key={`row2-${index}`} className="flex gap-8">
+                      <div
+                        className={`${commonTileClasses}`}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <FaReact className=" h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses}`}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <SiNextdotjs className=" h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses}`}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        {" "}
+                        {/* Adjusted width for Aceternity UI */}
+                        <SiTailwindcss className=" h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses}`}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <SiShadcnui className="h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses}`}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <SiSupabase className="h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses}`}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <SiClerk className="h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses}`}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <SiPostgresql className="h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses} `}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <FaDocker className="h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses} `}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <SiGithub className="h-12 w-12" />
+                      </div>
+                      <div
+                        className={`${commonTileClasses} mr-8 `}
+                        style={{ backgroundColor: "transparent" }}
+                      >
+                        <SiRedis className="h-12 w-12" />
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+            </div>
+          </div>
+          <motion.div
+            className="absolute bg-neutral-800/50 -bottom-30 border border-white/5 left-80 right-80 h-80 rounded-lg flex py-8 px-8 justify-between shadow-[0_10px_20px_rgba(64,64,64,0.3)] mask-b-from-96%"
+            initial={{
+              y: -100,
+              opacity: 0,
+            }}
+            whileInView={{
+              y: 0,
+              opacity: 1,
+            }}
+            transition={{
+              type: "spring",
+              duration: 1.3,
+              bounce: 0.1,
+              mass: 0.8,
+              stiffness: 100,
+              damping: 20,
+              opacity: {
+                duration: 1.0,
+                ease: "easeInOut",
+              },
+            }}
+            viewport={{ once: true }}
+          >
+            <div className="flex flex-col gap-y-4">
+              <div className="flex justify-between">
+                <div className="flex flex-col max-w-1/2 gap-y-3">
+                  <div className="flex items-center justify-start gap-2">
+                    <div>
+                      <Image
+                        src={pulseIcon}
+                        alt="Pulse Icon"
+                        width={50}
+                        height={50}
+                      />
+                    </div>
+                    <div className="text-3xl font-semibold bg-clip-text bg-gradient-to-r from-pink-200 via-rose-300 to-red-200 text-transparent">
+                      Pulse Check
+                    </div>
+                  </div>
+                  <div className="text-neutral-200 text-justify">
+                    Easily watch your website with our simple tools. Get clear
+                    updates on how it's doing, without any fuss. Help your
+                    business grow strong by keeping your website always online
+                    and working perfectly.
+                  </div>
+                  <div className="flex text-white gap-4 items-center">
+                    <a href="https://x.com/doubleSdotdev" target="_blank">
+                      <FaXTwitter size={24} className="cursor-pointer" />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/sahil-shangloo/"
+                      target="_blank"
+                    >
+                      <FaLinkedin size={24} className="cursor-pointer" />
+                    </a>
+                    <a
+                      href="https://github.com/SAHILSHANGLOO35"
+                      target="_blank"
+                    >
+                      <FaGithub size={26} className="cursor-pointer" />
+                    </a>
+                  </div>
+                </div>
+                <div className="flex gap-6">
+                  <div className="flex flex-col gap-y-3 text-neutral-300 font-thin">
+                    <div className="text-white font-semibold">Product</div>
+                    <div>Features</div>
+                    <div>Integrations</div>
+                    <div>Support</div>
+                  </div>
+                  <div className="flex flex-col gap-y-3 text-neutral-300 font-thin">
+                    <div className="text-white font-semibold">Developer</div>
+                    <div>About</div>
+                    <div>Contact</div>
+                    <div>Partners</div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="border border-transparent z-50"
+                style={{
+                  borderImage:
+                    "linear-gradient(to right, rgba(255,255,255,0.2) 0%, #404040 50%, rgba(255,255,255,0.2) 100%) 1",
+                }}
+              />
+              <div className="flex justify-between">
+                <div className="text-neutral-300">
+                  <span className="text-lg mr-1">&#169;</span>2025 Pulse Check.
+                  All rights reserved.
+                </div>
+                <div className="flex text-neutral-300">
+                  ~ Created with ❤️ by Sahil Shangloo AKA doubleSdotdev
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </section>
       </div>
     </div>
