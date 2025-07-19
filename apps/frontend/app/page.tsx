@@ -3,7 +3,7 @@ import { Globe } from "@/components/magicui/globe";
 import { Particles } from "@/components/magicui/particles";
 import pulseIcon from "../public/PulseIcon.png";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import {
   LayoutDashboard,
   LayoutDashboardIcon,
@@ -22,6 +22,12 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import Typography from "@mui/material/Typography";
 import PersonIcon from "@mui/icons-material/Person";
 import InsightsIcon from "@mui/icons-material/Insights";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function Home() {
   const navItems = [
@@ -34,6 +40,30 @@ export default function Home() {
   const [hovered, setHovered] = useState<number | null>(null);
   const scrollRef = useRef(null);
   const imageScrollRef = useRef(null);
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, x: -60 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+      },
+    },
+  };
+
+  const faqScrollRef = useRef(null);
 
   return (
     <div
@@ -527,7 +557,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="min-h-screen flex items-center pt-32 pb-32 px-28 relative">
+        <section className="min-h-screen flex items-center pt-32 px-28 relative">
           <div className="w-full mx-auto flex flex-col justify-center items-center">
             <div className="flex text-center">
               <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2 pb-8">
@@ -538,7 +568,7 @@ export default function Home() {
               </h2>
             </div>
             <div
-              className="flex mt-10 w-screen pl-28 items-center"
+              className="flex mt-10 w-screen pl-28 items-center mask-b-from-85%"
               ref={imageScrollRef}
             >
               <div className="flex flex-col">
@@ -698,7 +728,7 @@ export default function Home() {
                     ease: "easeOut",
                   },
                 }}
-                viewport={{ root: imageScrollRef, amount: 0.3, once: true }}
+                viewport={{ root: imageScrollRef, amount: 0.2, once: true }}
               >
                 <Image
                   src="/Betterstack.jpg"
@@ -713,21 +743,85 @@ export default function Home() {
         </section>
 
         <section className="min-h-screen flex items-center pt-32 pb-32 px-28 relative">
-          <div className="w-full mx-auto flex flex-col justify-center items-center">
-            <div className="flex flex-col text-center">
+          <div className="w-full mx-auto flex flex-col justify-center items-center mask-b-from-90%">
+            <div className="flex flex-col items-center justify-center pb-8">
               <h2 className="text-5xl font-medium bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pt-2">
                 Got any Questions in Mind ?
               </h2>
-              <div className="flex text-5xl font-medium items-baseline justify-center gap-4 bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pb-2">
+              <div className="flex text-5xl font-medium items-baseline justify-center gap-4 bg-clip-text bg-gradient-to-r from-neutral-100 to-neutral-500 text-transparent tracking-tight pb-4">
                 <span>We've got</span>
                 <span className="text-7xl font-pacifico tracking-widest">
                   answers
                 </span>
               </div>
+              <div className="text-neutral-400 text-lg max-w-xl text-center">
+                Get clear answers to how our platform makes it easy to
+                understand and improve your Website's performance.
+              </div>
             </div>
-            <div>
-              {/* TODO SECTION - ADD ACCORDIAN HERE */}
-            </div>
+            <motion.div
+              className="min-w-4xl max-w-4xl"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.3 }}
+
+            >
+              <Accordion type="single" collapsible>
+                <motion.div variants={itemVariants}>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="text-neutral-100">
+                      What is PulseCheck ?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-left">
+                      PulseCheck is a website monitoring tool that watches your
+                      site 24/7. If your site goes down, gets slow, or something
+                      stops working, it sends you an alert right away so you can
+                      fix it before your users notice.
+                    </AccordionContent>
+                  </AccordionItem>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger className="text-neutral-100">
+                      Why do I need a website monitoring service like PulseCheck
+                      ?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Your website is important for your business. If it goes
+                      down, you could lose money, hurt your reputation, and
+                      annoy users. PulseCheck keeps you updated on your site's
+                      status so you can keep it running smoothly, fast, and
+                      always available for your visitors.
+                    </AccordionContent>
+                  </AccordionItem>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <AccordionItem value="item-3">
+                    <AccordionTrigger className="text-neutral-100">
+                      How often does PulseCheck monitor my website ?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      We let you choose how often your website gets checked —
+                      from every minute to longer gaps. Pick the option that
+                      fits your needs and how important your site is.
+                    </AccordionContent>
+                  </AccordionItem>
+                </motion.div>
+                <motion.div variants={itemVariants}>
+                  <AccordionItem value="item-4">
+                    <AccordionTrigger className="text-neutral-100">
+                      Is PulseCheck suitable for all types of websites ?
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      Yes, PulseCheck works for all kinds of websites — whether
+                      it's a small blog, a big online store, or a complex web
+                      app. If it's online, we can monitor it.
+                    </AccordionContent>
+                  </AccordionItem>
+                </motion.div>
+              </Accordion>
+            </motion.div>
           </div>
         </section>
       </div>
