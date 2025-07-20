@@ -130,7 +130,7 @@ export default function Home() {
           </div>
           <div className="absolute inset-0 flex items-center justify-center mask-b-from-90%">
             <div className="relative w-[500px] h-[500px] flex items-center justify-center">
-              <div>{/* <Globe className="z-10" /> */}</div>
+              <div><Globe className="z-10" /></div>
 
               {/* Orbital Ring 1 - Closest orbit */}
               <div className="absolute flex items-center justify-center">
@@ -1015,7 +1015,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="min-h-screen min-w-screen items-center justify-center flex pt-32 mb-[480px] px-28 relative">
+        <section className="min-h-screen min-w-screen items-center justify-center flex pt-32 mb-[520px] px-28 relative">
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-32 bg-gradient-to-b from-black via-neutral-900/15 to-transparent rounded-t-full opacity-60 blur-3xl rotate-180"
             style={{ width: "1400px", height: "700px" }}
@@ -1164,7 +1164,7 @@ export default function Home() {
             </div>
           </div>
           <motion.div
-            className="absolute bg-neutral-800/50 -bottom-30 border border-white/5 left-80 right-80 h-80 rounded-lg flex py-8 px-8 justify-between shadow-[0_10px_20px_rgba(64,64,64,0.3)] mask-b-from-96%"
+            className="absolute bg-neutral-800/50 -bottom-44 border border-white/5 left-80 right-80 h-80 rounded-lg flex py-8 px-8 justify-between shadow-[0_10px_20px_rgba(64,64,64,0.3)] mask-b-from-96%"
             initial={{
               y: -100,
               opacity: 0,
@@ -1260,7 +1260,7 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
-          <div className="absolute -bottom-105 flex items-center justify-center">
+          <div className="absolute -bottom-115 flex items-center justify-center">
             <motion.div
               className="text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[15.85rem] font-bold text-center tracking-tighter leading-none w-full mx-auto text-shadow-lg/95 text-shadow-neutral-800/70"
               style={{
@@ -1298,7 +1298,7 @@ export default function Home() {
               PULSECHECK
             </motion.div>
             <motion.div
-              className="absolute bottom-0 w-full h-[3px] origin-center left-1/2 transform -translate-x-1/2" // Removed border and border-transparent classes
+              className="absolute bottom-0 w-full h-[3px] origin-center left-1/2 transform -translate-x-1/2"
               initial={{ scaleX: 0, opacity: 0 }}
               whileInView={{ scaleX: 1, opacity: 1 }}
               transition={{
