@@ -45,6 +45,7 @@ import {
   FaReact,
   FaXTwitter,
 } from "react-icons/fa6";
+import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 
 export default function Home() {
   const navItems = [
@@ -115,7 +116,7 @@ export default function Home() {
         backgroundImage: 'url("/binding-dark-texture.png")',
       }}
     >
-      <div className="relative flex flex-col w-full overflow-x-hidden">
+      <div className="relative flex flex-col w-full overflow-x-hidden overflow-hidden">
         <section className="relative h-screen w-screen ">
           <div>
             <Particles
@@ -1014,7 +1015,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="min-h-screen items-center justify-center flex pt-32 mb-56 px-28 relative">
+        <section className="min-h-screen min-w-screen items-center justify-center flex pt-32 mb-[480px] px-28 relative">
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-32 bg-gradient-to-b from-black via-neutral-900/15 to-transparent rounded-t-full opacity-60 blur-3xl rotate-180"
             style={{ width: "1400px", height: "700px" }}
@@ -1259,6 +1260,67 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
+          <div className="absolute -bottom-105 flex items-center justify-center">
+            <motion.div
+              className="text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[15.85rem] font-bold text-center tracking-tighter leading-none w-full mx-auto text-shadow-lg/95 text-shadow-neutral-800/70"
+              style={{
+                background:
+                  "linear-gradient(to right, #e5e5e5, #fda4af, #f43f5e)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                maxWidth: "100%",
+                overflowWrap: "break-word",
+                display: "block",
+                opacity: 1,
+              }}
+              initial={{
+                y: 120,
+                opacity: 0,
+              }}
+              whileInView={{
+                y: 0,
+                opacity: 1,
+              }}
+              transition={{
+                type: "spring",
+                duration: 1.5,
+                bounce: 0.2,
+                mass: 0.8,
+                stiffness: 100,
+                damping: 20,
+                opacity: {
+                  duration: 1.0,
+                  ease: "easeInOut",
+                },
+              }}
+              viewport={{ once: true }}
+            >
+              PULSECHECK
+            </motion.div>
+            <motion.div
+              className="absolute bottom-0 w-full h-[3px] origin-center left-1/2 transform -translate-x-1/2" // Removed border and border-transparent classes
+              initial={{ scaleX: 0, opacity: 0 }}
+              whileInView={{ scaleX: 1, opacity: 1 }}
+              transition={{
+                type: "spring",
+                stiffness: 150,
+                damping: 30,
+                delay: 0.5,
+                duration: 4,
+                opacity: {
+                  duration: 0.6,
+                  ease: "easeInOut",
+                },
+              }}
+              viewport={{ once: true, amount: 1 }}
+              style={{
+                transformOrigin: "center",
+                width: "100%",
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255,255,255,0.2) 0%, #404040 50%, rgba(255,255,255,0.2) 100%)",
+              }}
+            ></motion.div>
+          </div>
         </section>
       </div>
     </div>
