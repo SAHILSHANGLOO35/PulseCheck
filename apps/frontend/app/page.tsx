@@ -11,7 +11,6 @@ import {
   User,
 } from "lucide-react";
 import { useRef, useState } from "react";
-import WorldMap from "@/components/ui/world-map";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -45,7 +44,7 @@ import {
   FaReact,
   FaXTwitter,
 } from "react-icons/fa6";
-import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const navItems = [
@@ -108,6 +107,8 @@ export default function Home() {
   };
 
   const commonTileClasses = `rounded-lg flex items-center justify-center h-20 min-w-max text-neutral-500`;
+
+  const router = useRouter();
 
   return (
     <div
@@ -324,7 +325,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <div className="text-white text-md font-normal flex items-center justify-center gap-x-3 mr-28 border border-white/25 px-4 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150">
+            <div className="text-white text-md font-normal flex items-center justify-center gap-x-3 mr-28 border border-white/25 px-4 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150" onClick={() => router.push('/sign-up')}>
               <div>
                 <User size={20} />
               </div>
@@ -367,7 +368,7 @@ export default function Home() {
                   <div>
                     <User size={20} />
                   </div>
-                  <div className="text-shadow-xs">Demo</div>
+                  <div className="text-shadow-xs">Sign In</div>
                 </div>
                 <div className="text-white text-md font-normal flex items-center justify-center gap-x-2 border border-white/25 px-2 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150 w-40">
                   <div>
