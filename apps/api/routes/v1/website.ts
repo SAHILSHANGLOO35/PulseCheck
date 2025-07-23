@@ -58,4 +58,12 @@ websiteRouter.get("/status/websites/:websiteId", authMiddleware, async (req: Req
     }
 });
 
+websiteRouter.get("/websites", authMiddleware, async (req: Request, res: Response) => {
+    const websites = await prisma.website.findMany({ where: {
+        user_id: req.userId
+    } });
+
+    res.status(200).json({ websites });
+})
+
 export default websiteRouter;
