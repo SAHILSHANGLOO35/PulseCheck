@@ -7,6 +7,7 @@ import { motion, type Variants } from "motion/react";
 import {
   LayoutDashboard,
   LayoutDashboardIcon,
+  Loader,
   LucideLink2,
   User,
 } from "lucide-react";
@@ -109,6 +110,12 @@ export default function Home() {
   const commonTileClasses = `rounded-lg flex items-center justify-center h-20 min-w-max text-neutral-500`;
 
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = () => {
+    setLoading(true);
+    router.push('/sign-up');
+  };
 
   return (
     <div
@@ -325,12 +332,25 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <div className="text-white text-md font-normal flex items-center justify-center gap-x-3 mr-28 border border-white/25 px-4 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150" onClick={() => router.push('/sign-up')}>
-              <div>
-                <User size={20} />
-              </div>
-              <div className="text-shadow-xs">Create Account</div>
-            </div>
+            <button
+              className="w-[200px] text-white text-md font-normal flex items-center justify-center gap-x-3 mr-28 border border-white/25 px-4 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-300"
+              onClick={handleClick}
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <span className="mr-2">Redirecting</span>
+                  <Loader className="ease-linear animate-spin w-5 h-5" />
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <User size={20} />
+                  </div>
+                  <div className="text-shadow-xs">Create Account</div>
+                </>
+              )}
+            </button>
           </div>
           <div className="absolute top-48 ml-28 mr-28 flex items-center">
             <div className="flex flex-col max-w-[550px] gap-6">

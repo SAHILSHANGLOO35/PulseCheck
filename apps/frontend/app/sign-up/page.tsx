@@ -1,13 +1,38 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { motion } from "motion/react";
 import { Particles } from "@/components/magicui/particles";
+import { Eye, EyeOff, Loader } from "lucide-react";
+import axios from "axios";
 
 const Signup = () => {
   const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signup`, {
+        username,
+        password,
+      });
+
+      setUsername("");
+      setPassword("");
+
+      setLoading(false);
+      router.push("/sign-in");
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -75,7 +100,10 @@ const Signup = () => {
 
           <div className="flex items-center justify-center text-neutral-400 text-[14px] mb-8 z-20">
             Already have an account?
-            <div className="ml-2 group cursor-pointer transition-colors duration-300" onClick={() => router.push('/sign-in')}>
+            <div
+              className="ml-2 group cursor-pointer transition-colors duration-300"
+              onClick={() => router.push("/sign-in")}
+            >
               <span className="text-blue-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-l group-hover:to-blue-300 group-hover:from-blue-500">
                 Sign In.
               </span>
@@ -87,6 +115,8 @@ const Signup = () => {
             <div className="flex items-center justify-center">
               <input
                 type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="text-white placeholder-neutral-400 border border-white/10 w-[400px] py-3 px-4 rounded-md outline-none bg-transparent hover:border-rose-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-700/50 transition-all duration-300"
                 placeholder="Enter your username"
               />
@@ -97,17 +127,35 @@ const Signup = () => {
             <div className="text-neutral-400 text-[14px]">Password</div>
             <div className="flex items-center justify-center">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="text-white placeholder-neutral-400 border border-white/10 w-[400px] py-3 px-4 rounded-md outline-none bg-transparent hover:border-rose-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-700/50 transition-all duration-300"
                 placeholder="Enter your password"
               />
+              <button
+                className="absolute right-4 text-neutral-400 text-xs z-30 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+              </button>
             </div>
           </div>
 
           <div className="mb-4 z-20">
             <div className="flex items-center justify-center">
-              <button className="text-neutral-50 bg-rose-600 w-[400px] py-3 px-4 rounded-md outline-none hover:bg-gradient-to-r hover:from-rose-600 hover:to-red-500 cursor-pointer transition-colors duration-300 font-medium text-shadow-2xs">
-                Create Account
+              <button
+                className="text-neutral-50 bg-rose-600 w-[400px] py-3 px-4 rounded-md outline-none hover:bg-gradient-to-r hover:from-rose-600 hover:to-red-500 cursor-pointer transition-colors duration-300 font-medium text-shadow-2xs"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <Loader className="ease-linear animate-spin w-6 h-6" />
+                  </div>
+                ) : (
+                  <div>Create Account</div>
+                )}
               </button>
             </div>
           </div>
