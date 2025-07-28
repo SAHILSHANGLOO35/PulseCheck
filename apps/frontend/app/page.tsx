@@ -138,7 +138,7 @@ export default function Home() {
           </div>
           <div className="absolute inset-0 flex items-center justify-center mask-b-from-90%">
             <div className="relative w-[500px] h-[500px] flex items-center justify-center">
-              <div><Globe className="z-10" /></div>
+              {/* <div><Globe className="z-10" /></div> */}
 
               {/* Orbital Ring 1 - Closest orbit */}
               <div className="absolute flex items-center justify-center">
