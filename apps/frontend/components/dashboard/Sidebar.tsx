@@ -1,5 +1,6 @@
 "use client";
-import { FolderGit2, PanelLeftClose, Settings } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { FolderGit2, LogOut, PanelLeftClose, Settings } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -23,6 +24,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
   ];
 
   const [selectedItem, setSelectedItem] = useState(sidebarItems[0]);
+  const user = useAuth();
 
   return (
     <div
@@ -30,7 +32,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
         isOpen ? "w-[240px]" : "w-[75px]"
       }`}
     >
-      <div>
+      <div className="flex flex-col justify-center h-full">
+
+        {/* Pulse Check Title */}
         <div className="flex items-center justify-between">
           {/* Logo section */}
           {isOpen && (
@@ -63,7 +67,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
         </div>
 
         {/* Sidebar Items */}
-        <div className="flex flex-col items-start justify-center py-4 gap-y-2 font-normal text-neutral-200">
+        <div className="flex-1 py-4 font-normal text-neutral-200">
           {sidebarItems.map((item) => {
             const Icon = item.icon;
             const isSelected = selectedItem.itemName === item.itemName;
@@ -72,13 +76,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
               <button
                 key={item.itemName}
                 onClick={() => setSelectedItem(item)}
-                className={`flex items-center w-full gap-4 px-2 h-9 rounded-sm cursor-pointer transition-all duration-300 ${
+                className={`flex items-center w-full gap-4 px-2 h-9 rounded-sm cursor-pointer transition-all duration-300 mb-2 ${
                   isSelected ? "" : "bg-transparent hover:bg-neutral-800"
                 }`}
                 style={{
-                  backgroundColor: isSelected
-                    ? "rgb(194, 30, 86)"
-                    : undefined,
+                  backgroundColor: isSelected ? "rgb(194, 30, 86)" : undefined,
                 }}
               >
                 {/* Icon Centering */}
@@ -93,20 +95,52 @@ export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
                 {/* Label transition */}
                 <span
                   className={`tracking-wide whitespace-nowrap overflow-hidden transition-all duration-300 text-neutral-100
-                    ${
-                      isSelected ? 'text-rose-200' : ''
-                    }
-                    ${
-                    isOpen
-                      ? "opacity-100 ml-0 max-w-[150px]"
-                      : "opacity-0 ml-[-12px] max-w-0"
-                  }`}
+                      ${isSelected ? "text-rose-200" : ""}
+                      ${
+                        isOpen
+                          ? "opacity-100 ml-0 max-w-[150px]"
+                          : "opacity-0 ml-[-12px] max-w-0"
+                      }`}
                 >
                   {item.itemName}
                 </span>
               </button>
             );
           })}
+        </div>
+
+        {/* Footer */}
+        <div className="w-full flex flex-col border-t border-rose-500/40 h-[100px] text-neutral-100 items-start justify-center transition-all duration-300">
+          {/* Avatar and username */}
+          <div className="flex items-center gap-2 transition-all duration-300 mb-2">
+            <div className="bg-transparent border border-rose-500/80 h-10 w-10 rounded-full flex items-center justify-center text-[24px] font-bold text-shadow-xs text-shadow-rose-500/50">
+              {user?.username[0].toUpperCase()}
+            </div>
+            <div
+              className={`transition-all duration-200 font-medium whitespace-nowrap overflow-hidden ${
+                isOpen ? "opacity-100 ml-1 w-auto scale-100" : "opacity-0"
+              }`}
+            >
+              {user?.username}
+            </div>
+          </div>
+
+          {/* Logout button */}
+          <div
+            className={`flex items-center text-red-600 hover:bg-neutral-800 px-2 py-1 w-full rounded-md cursor-pointer transition-all duration-300 whitespace-nowrap ${
+              isOpen ? "gap-3 justify-start" : "gap-0 justify-center"
+            }`}
+          >
+            <LogOut size={20} />
+            <span
+              className={`
+              transition-all duration-300 ease-in-out
+              ${isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 transition-opacity duration-300 "}
+            `}
+            >
+              Logout
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -384,7 +384,7 @@ export default function Home() {
                 We Keep an Eye on Your Site - So You Don't Have To.
               </span>
               <div className="flex gap-2">
-                <div className="text-md font-normal flex items-center justify-center gap-x-2 bg-white px-2 py-2 cursor-pointer w-44">
+                <div className="text-md font-normal flex items-center justify-center gap-x-2 bg-white px-2 py-2 cursor-pointer w-44" onClick={() => router.push('/sign-in')}>
                   <div>
                     <User size={20} />
                   </div>
