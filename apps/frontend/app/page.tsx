@@ -59,6 +59,11 @@ export default function Home() {
   const scrollRef = useRef(null);
   const imageScrollRef = useRef(null);
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [signinLoading, setSigninLoading] = useState(false);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -81,18 +86,6 @@ export default function Home() {
     },
   };
 
-  const hoverVariants: Variants = {
-    whileHover: {
-      scale: 1.2,
-      rotate: -1.02,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 10,
-      },
-    },
-  };
-
   const reverseMarqueeVariants: Variants = {
     animate: {
       x: ["0%", "-100%"],
@@ -109,12 +102,26 @@ export default function Home() {
 
   const commonTileClasses = `rounded-lg flex items-center justify-center h-20 min-w-max text-neutral-500`;
 
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-
   const handleClick = () => {
     setLoading(true);
-    router.push('/sign-up');
+    router.push("/sign-up");
+  };
+
+  const handleSigninClick = () => {
+    setSigninLoading(true);
+    router.push("/sign-in");
+  };
+
+  const handleDashboardClick = () => {
+    setDashboardLoading(true);
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      router.push('/sign-in')
+      return;
+    } else {
+      router.push('/dashboard');
+    }
   };
 
   return (
@@ -384,18 +391,43 @@ export default function Home() {
                 We Keep an Eye on Your Site - So You Don't Have To.
               </span>
               <div className="flex gap-2">
-                <div className="text-md font-normal flex items-center justify-center gap-x-2 bg-white px-2 py-2 cursor-pointer w-44" onClick={() => router.push('/sign-in')}>
-                  <div>
-                    <User size={20} />
-                  </div>
-                  <div className="text-shadow-xs">Sign In</div>
-                </div>
-                <div className="text-white text-md font-normal flex items-center justify-center gap-x-2 border border-white/25 px-2 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150 w-40">
-                  <div>
-                    <LayoutDashboard size={20} />
-                  </div>
-                  <div>Dashboard</div>
-                </div>
+                <button
+                  className="text-md font-normal flex items-center justify-center gap-x-2 bg-white px-2 py-2 cursor-pointer w-44"
+                  onClick={handleSigninClick}
+                  disabled={signinLoading}
+                >
+                  {signinLoading ? (
+                    <div className="flex items-center justify-center">
+                      <span className="mr-2">Redirecting</span>
+                      <Loader className="ease-linear animate-spin w-5 h-5" />
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <User size={20} />
+                      </div>
+                      <div className="text-shadow-xs">Sign In</div>
+                    </>
+                  )}
+                </button>
+                <button className="text-white text-md font-normal flex items-center justify-center gap-x-2 border border-white/25 px-2 py-2 cursor-pointer hover:bg-neutral-700 transition-all duration-150 w-40"
+                onClick={handleDashboardClick}
+                disabled={dashboardLoading}
+                >
+                  {dashboardLoading ? (
+                    <div className="flex items-center justify-center">
+                      <span className="mr-2">Redirecting</span>
+                      <Loader className="ease-linear animate-spin w-5 h-5" />
+                    </div>
+                  ) : (
+                    <>
+                      <div>
+                        <LayoutDashboard size={20} />
+                      </div>
+                      <div>Dashboard</div>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
 

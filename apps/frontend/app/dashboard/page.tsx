@@ -1,5 +1,4 @@
 "use client";
-import AddWebsiteModal from "@/components/AddWebsiteModal";
 import MainLayout from "@/components/dashboard/MainLayout";
 import Sidebar from "@/components/dashboard/Sidebar";
 import React, { useState } from "react";
@@ -19,7 +18,6 @@ const page = () => {
       <div className="flex flex-1">
         <MainLayout />
       </div>
-      <AddWebsiteModal />
     </div>
   );
 };
