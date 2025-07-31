@@ -28,7 +28,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
 
   return (
     <div
-      className={`min-h-screen text-neutral-400 bg-neutral-950 p-4 transition-all duration-300 ${
+      className={`min-h-screen text-neutral-400 bg-neutral-950 p-4 transition-all duration-300 font-poppins ${
         isOpen ? "w-[240px]" : "w-[75px]"
       }`}
     >
