@@ -1,5 +1,6 @@
 "use client";
 
+import { useWebsiteContext } from "@/context/WebsiteContext";
 import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import { X } from "lucide-react";
@@ -21,6 +22,8 @@ export default function AddWebsiteModal({
 
   const user = useAuth();
   const modalRef = useRef(null);
+
+  const { fetchWebsites } = useWebsiteContext();
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -53,8 +56,10 @@ export default function AddWebsiteModal({
           },
         }
       );
+      fetchWebsites();
       setWebsiteName("");
       setWebsiteURL("");
+      closeModal();
     } catch (error) {
       console.error(error);
     }
