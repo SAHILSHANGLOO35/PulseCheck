@@ -43,9 +43,9 @@ websiteRouter.get("/status/websites/:websiteId", authMiddleware, async (req: Req
         },
         include: {
           ticks: {
-            orderBy: {
+            orderBy: [{
               createdAt: "desc",
-            },
+            }],
             take: 10,
           },
         },
@@ -71,6 +71,14 @@ websiteRouter.get("/", authMiddleware, async (req: Request, res: Response) => {
     where: {
       user_id: req.userId,
     },
+    include: {
+      ticks: {
+        orderBy: [{
+          createdAt: "desc"
+        }],
+        take: 1
+      }
+    }
   });
 
   res.status(200).json({ websites });
