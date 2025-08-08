@@ -1,10 +1,10 @@
 "use client";
 import { Command, PlusIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddWebsiteModal from "../AddWebsiteModal";
 import WebsitesTable from "../WebsiteTable";
 
-const MainLayout = () => {
+export const MainLayout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -17,7 +17,11 @@ const MainLayout = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key.toLowerCase() === "m" && event.target === document.body) {
+      if (
+        event.ctrlKey &&
+        event.key.toLowerCase() === "m" &&
+        event.target === document.body
+      ) {
         event.preventDefault();
         setIsModalOpen(true);
       }
@@ -28,36 +32,37 @@ const MainLayout = () => {
   }, []);
 
   return (
-    <div className="h-screen flex flex-1 w-full p-2 ">
-      <div className="min-w-full min-h-full flex flex-col border border-rose-500/40 rounded-sm font-poppins">
-        {/* Top Bar */}
-        <div className="w-full min-h-14 border-b border-rose-500/40 flex items-center justify-between px-4 text-neutral-100 text-shadow-xs text-shadow-white/10">
-          <div className="text-[15px]">Your Websites</div>
+    <div className="flex min-h-screen max-w-full flex-1 p-2">
+      <div className="font-poppins flex min-h-full w-full flex-col rounded-sm border border-rose-500/40">
+        {/* Top Bar - Made responsive */}
+        <div className="flex min-h-14 w-full items-center justify-between gap-2 border-b border-rose-500/40 py-2 pr-2 pl-14 text-neutral-100 text-shadow-white/10 text-shadow-xs sm:flex-row sm:items-center sm:px-8">
+          <div className="flex-shrink-0 text-[15px]">Your Websites</div>
           <div
             id="website-modal"
-            className="flex items-center justify-center gap-1 hover:bg-neutral-800 transition-all duration-300 px-2 py-1 rounded-sm cursor-pointer group"
+            className="group flex w-fit cursor-pointer items-center justify-center gap-1 rounded-full border border-white/25 px-2 py-2 transition-all duration-300 hover:bg-neutral-800 sm:rounded-sm sm:border-none sm:py-1"
             onClick={openModal}
           >
             <PlusIcon
               size={14}
-              className="text-neutral-400 group-hover:text-neutral-100 transition-all duration-300"
+              className="text-neutral-400 transition-all duration-300 group-hover:text-neutral-100"
             />
-            <span className="text-[15px]">Add Website</span>
-            <div className="flex items-center justify-centers gap-1 bg-neutral-700/50 px-2 py-1 rounded-xs text-shadow-xs text-base">
+            <span className="hidden text-[15px] whitespace-nowrap sm:block">
+              Add Website
+            </span>
+            <div className="hidden items-center justify-center gap-1 rounded-xs bg-neutral-700/50 px-2 py-1 text-base text-shadow-xs sm:flex">
               <Command size={12} />
               <span className="text-[12px]">m</span>
             </div>
           </div>
         </div>
+        {/* Your AddWebsiteModal component */}
         {isModalOpen && (
           <AddWebsiteModal isModalOpen={isModalOpen} closeModal={closeModal} />
         )}
-        <div className="">
+        <div className="flex flex-1 overflow-hidden">
           <WebsitesTable />
         </div>
       </div>
     </div>
   );
 };
-
-export default MainLayout;

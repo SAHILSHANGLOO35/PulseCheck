@@ -21,14 +21,16 @@ export default function AddWebsiteModal({
   const [websiteURL, setWebsiteURL] = useState("");
 
   const user = useAuth();
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement>(null); // Explicitly type modalRef
 
   const { fetchWebsites } = useWebsiteContext();
 
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      // @ts-ignore
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         closeModal();
       }
     };
@@ -38,9 +40,9 @@ export default function AddWebsiteModal({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, closeModal]); // Add closeModal to dependency array
 
-  if (!isModalOpen) return null;
+  // No need for `if (!isModalOpen) return null;` here since AnimatePresence handles rendering
 
   const handleAddWebsite = async () => {
     try {
@@ -54,7 +56,7 @@ export default function AddWebsiteModal({
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       fetchWebsites();
       setWebsiteName("");
@@ -62,6 +64,7 @@ export default function AddWebsiteModal({
       closeModal();
     } catch (error) {
       console.error(error);
+      // You might want to add some user feedback here, like a toast notification
     }
   };
 
@@ -69,84 +72,101 @@ export default function AddWebsiteModal({
     <AnimatePresence>
       {isModalOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm sm:p-6" // Added padding for smaller screens
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { ease: "easeOut", duration: 0.3 } }}
         >
           <motion.div
-            className="relative w-full max-w-md mx-auto h-[500px] border border-white/15 flex flex-col rounded-lg bg-neutral-900"
+            className="relative mx-auto max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-neutral-800/60 bg-neutral-900/95 shadow-2xl backdrop-blur-md" // Added max-h and overflow-y-auto
             ref={modalRef}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            {/* Header Section */}
-            <div className="flex flex-col text-neutral-400">
-              <div className="h-18 flex flex-col bg-neutral-950 rounded-t-lg">
-                {/* User Avatar */}
-                <div className="relative h-14 w-14 rounded-full border top-[61.5%] left-4 flex items-center justify-center text-4xl font-semibold bg-neutral-900 text-neutral-100">
+            {/* Header */}
+            <div className="relative px-6 pt-6 pb-4">
+              <button
+                className="absolute top-4 right-4 rounded-lg p-2 text-neutral-400 transition-all duration-300 hover:rotate-90 hover:bg-neutral-800 hover:text-neutral-200"
+                onClick={closeModal}
+              >
+                <X size={20} />
+              </button>
+
+              <div className="flex flex-wrap items-center gap-4">
+                {" "}
+                {/* Added flex-wrap for smaller screens */}
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-red-600 text-3xl font-semibold text-white shadow-lg text-shadow-xs">
                   {user?.username[0].toUpperCase()}
                 </div>
-
-                {/* Close Button */}
-                <div
-                  className="absolute right-2 top-2 px-1 py-1 hover:bg-neutral-900 hover:text-neutral-100 hover:rotate-90 transition-all duration-300 rounded-full cursor-pointer"
-                  onClick={closeModal}
-                >
-                  <X size={18} />
+                <div>
+                  <h2 className="text-xl font-semibold text-neutral-100">
+                    Add New Website
+                  </h2>
+                  <p className="mt-1 text-sm text-neutral-400">
+                    Welcome back, {user?.username}
+                  </p>
                 </div>
-              </div>
-
-              {/* Username */}
-              <div className="flex pt-12 px-4 text-neutral-100">
-                {user?.username}
               </div>
             </div>
 
+            {/* Divider */}
+            <div className="border-t border-neutral-800/50" />
+
             {/* Form Section */}
-            <div className="flex flex-col text-neutral-400 px-4 pt-4 gap-y-8">
+            <div className="space-y-6 px-6 py-6">
               {/* Website Name Input */}
-              <div className="flex items-center justify-between text-neutral-100">
-                <label htmlFor="website-name">Website Name</label>
+              <div className="space-y-2">
+                <label
+                  htmlFor="website-name"
+                  className="block text-sm font-medium text-neutral-200"
+                >
+                  Website Name
+                </label>
                 <input
                   id="website-name"
                   value={websiteName}
                   onChange={(e) => setWebsiteName(e.target.value)}
-                  className="text-white w-[280px] placeholder-neutral-500 border border-white/10 py-2 px-4 rounded-md outline-none bg-transparent hover:border-rose-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-700/50 transition-all duration-300"
+                  className="w-full rounded-lg border border-neutral-700/50 bg-neutral-800/50 px-4 py-3 text-neutral-100 placeholder-neutral-500 transition-all duration-200 focus:border-rose-500/50 focus:ring-2 focus:ring-rose-500/50 focus:outline-none"
                   placeholder="e.g., My Portfolio Website"
                 />
               </div>
 
               {/* Website URL Input */}
-              <div className="flex items-center justify-between text-neutral-100">
-                <label htmlFor="website-url">Website URL</label>
+              <div className="space-y-2">
+                <label
+                  htmlFor="website-url"
+                  className="block text-sm font-medium text-neutral-200"
+                >
+                  Website URL
+                </label>
                 <input
                   id="website-url"
                   value={websiteURL}
                   onChange={(e) => setWebsiteURL(e.target.value)}
-                  className="text-white w-[280px] placeholder-neutral-500 border border-white/10 py-2 px-4 rounded-md outline-none bg-transparent hover:border-rose-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-700/50 transition-all duration-300"
+                  className="w-full rounded-lg border border-neutral-700/50 bg-neutral-800/50 px-4 py-3 text-neutral-100 placeholder-neutral-500 transition-all duration-200 focus:border-rose-500/50 focus:ring-2 focus:ring-rose-500/50 focus:outline-none"
                   placeholder="https://yourwebsite.com"
                 />
               </div>
 
               {/* Submit Button */}
-              <div className="flex items-center justify-center">
-                <button
-                  className="text-neutral-50 flex items-center justify-center gap-2 bg-rose-600 w-[400px] py-3 px-4 rounded-md outline-none hover:bg-gradient-to-r hover:from-rose-600 hover:to-red-500 cursor-pointer transition-colors duration-300 font-medium text-shadow-2xs tracking-wide"
-                  onClick={handleAddWebsite}
-                >
-                  Add Website
-                  <FaArrowRightLong />
-                </button>
-              </div>
+              <button
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-rose-600 to-red-600 px-4 py-3 font-medium text-white shadow-lg transition-all duration-200 hover:from-rose-700 hover:to-red-700 hover:shadow-sm hover:shadow-rose-500/25 disabled:cursor-not-allowed disabled:opacity-50"
+                onClick={handleAddWebsite}
+                disabled={!websiteName.trim() || !websiteURL.trim()}
+              >
+                Add Website
+                <FaArrowRightLong className="text-sm" />
+              </button>
+            </div>
 
-              <div className="relative border border-neutral-50/10"></div>
-
-              {/* Footer Text */}
-              <div className="flex items-center justify-center text-center">
-                You are just a few moments away from being a caring developer.
+            {/* Footer */}
+            <div className="px-6 pb-6">
+              <div className="border-t border-neutral-800/50 pt-4">
+                <p className="text-center text-sm text-neutral-400">
+                  You're just moments away from being a more organized developer
+                </p>
               </div>
             </div>
           </motion.div>

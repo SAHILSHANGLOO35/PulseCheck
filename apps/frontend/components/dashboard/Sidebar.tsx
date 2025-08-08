@@ -11,138 +11,126 @@ interface SidebarOpenClose {
 
 export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
   const sidebarItems = [
-    {
-      icon: FolderGit2,
-      itemName: "Websites",
-      href: "/websites",
-    },
-    {
-      icon: Settings,
-      itemName: "Settings",
-      href: "/settings",
-    },
+    { icon: FolderGit2, itemName: "Websites", href: "/websites" },
+    { icon: Settings, itemName: "Settings", href: "/settings" },
   ];
 
   const [selectedItem, setSelectedItem] = useState(sidebarItems[0]);
   const user = useAuth();
 
   return (
-    <div
-      className={`min-h-screen text-neutral-400 bg-neutral-950 p-4 transition-all duration-300 font-poppins ${
-        isOpen ? "w-[240px]" : "w-[75px]"
-      }`}
-    >
-      <div className="flex flex-col justify-center h-full">
+    <>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 sm:hidden"
+          onClick={onClose}
+        />
+      )}
 
-        {/* Pulse Check Title */}
-        <div className="flex items-center justify-between">
-          {/* Logo section */}
-          {isOpen && (
-            <div className="flex items-center overflow-hidden transition-all duration-300">
-              <Image
-                src="/PulseIcon.png"
-                alt="Pulse Check Icon"
-                width={30}
-                height={30}
-              />
-              <span
-                className={`bg-clip-text bg-gradient-to-r from-pink-200 via-rose-300 to-red-300 text-transparent font-medium text-[20px] transition-all duration-300 ${
-                  isOpen
-                    ? "opacity-100 ml-2 max-w-[150px]"
-                    : "opacity-0 ml-0 max-w-0"
-                } overflow-hidden whitespace-nowrap`}
-              >
-                Pulse Check
-              </span>
+      {/* Sidebar container */}
+      <div
+        className={`font-poppins fixed top-0 left-0 z-50 h-screen bg-neutral-950 text-neutral-400 transition-all duration-300 ${
+          isOpen
+            ? "w-[240px]"
+            : "w-0 overflow-hidden sm:w-[75px] sm:overflow-visible"
+        }`}
+      >
+        <div className="flex h-full flex-col justify-between p-4">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            {isOpen && (
+              <div className="flex items-center">
+                <Image
+                  src="/PulseIcon.png"
+                  alt="Pulse Check Icon"
+                  width={30}
+                  height={30}
+                />
+                <span className="ml-2 max-w-[150px] bg-gradient-to-r from-pink-200 via-rose-300 to-red-300 bg-clip-text text-[20px] font-medium whitespace-nowrap text-transparent">
+                  Pulse Check
+                </span>
+              </div>
+            )}
+
+            {/* Close Button */}
+            <div
+              className={`cursor-pointer rounded-md text-neutral-300 transition hover:bg-neutral-800 ${
+                !isOpen ? "flex w-full items-center justify-center" : ""
+              }`}
+              onClick={onClose}
+            >
+              <PanelLeftClose className="m-2" size={22} />
             </div>
-          )}
-
-          {/* Close button */}
-          <div
-            className={`text-neutral-300 bg-transparent hover:bg-neutral-800 rounded-md transition-all duration-200 cursor-pointer ${!isOpen ? "min-w-full flex items-center justify-center" : ""}`}
-            onClick={onClose}
-          >
-            <PanelLeftClose className="m-2" size={22} />
           </div>
-        </div>
 
-        {/* Sidebar Items */}
-        <div className="flex-1 py-4 font-normal text-neutral-200">
-          {sidebarItems.map((item) => {
-            const Icon = item.icon;
-            const isSelected = selectedItem.itemName === item.itemName;
-
-            return (
-              <button
-                key={item.itemName}
-                onClick={() => setSelectedItem(item)}
-                className={`flex items-center w-full gap-4 px-2 h-9 rounded-sm cursor-pointer transition-all duration-300 mb-2 ${
-                  isSelected ? "" : "bg-transparent hover:bg-neutral-800"
-                }`}
-                style={{
-                  backgroundColor: isSelected ? "rgb(194, 30, 86)" : undefined,
-                }}
-              >
-                {/* Icon Centering */}
-                <div
-                  className={`flex items-center transition-all duration-300 text-neutral-300 ${
-                    !isOpen ? "p-0 justify-center items-center min-w-full" : ""
+          {/* Navigation Items */}
+          <div className="flex-1 py-4 font-normal text-neutral-200">
+            {sidebarItems.map((item) => {
+              const Icon = item.icon;
+              const isSelected = selectedItem.itemName === item.itemName;
+              return (
+                <button
+                  key={item.itemName}
+                  onClick={() => setSelectedItem(item)}
+                  className={`mb-2 flex h-9 w-full items-center gap-4 rounded-sm px-2 transition-all duration-300 ${
+                    isSelected
+                      ? "bg-[rgb(194,30,86)]"
+                      : "bg-transparent hover:bg-neutral-800"
                   }`}
                 >
-                  <Icon size={20} />
-                </div>
-
-                {/* Label transition */}
-                <span
-                  className={`tracking-wide whitespace-nowrap overflow-hidden transition-all duration-300 text-neutral-100
-                      ${isSelected ? "text-rose-200" : ""}
-                      ${
-                        isOpen
-                          ? "opacity-100 ml-0 max-w-[150px]"
-                          : "opacity-0 ml-[-12px] max-w-0"
-                      }`}
-                >
-                  {item.itemName}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Footer */}
-        <div className="w-full flex flex-col border-t border-rose-500/40 h-[100px] text-neutral-100 items-start justify-center transition-all duration-300">
-          {/* Avatar and username */}
-          <div className="flex items-center gap-2 transition-all duration-300 mb-2">
-            <div className="bg-transparent border border-rose-500/80 h-10 w-10 rounded-full flex items-center justify-center text-[24px] font-bold text-shadow-xs text-shadow-rose-500/50">
-              {user?.username[0].toUpperCase()}
-            </div>
-            <div
-              className={`transition-all duration-200 font-medium whitespace-nowrap overflow-hidden ${
-                isOpen ? "opacity-100 ml-1 w-auto scale-100" : "opacity-0"
-              }`}
-            >
-              {user?.username}
-            </div>
+                  <div
+                    className={`flex items-center text-neutral-300 ${
+                      !isOpen ? "w-full justify-center" : ""
+                    }`}
+                  >
+                    <Icon size={20} />
+                  </div>
+                  <span
+                    className={`overflow-hidden whitespace-nowrap transition-all duration-300 ${
+                      isOpen
+                        ? "ml-0 max-w-[150px] opacity-100"
+                        : "ml-[-12px] max-w-0 opacity-0"
+                    } ${isSelected ? "text-rose-200" : ""}`}
+                  >
+                    {item.itemName}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Logout button */}
-          <div
-            className={`flex items-center text-red-600 hover:bg-neutral-800 px-2 py-1 w-full rounded-md cursor-pointer transition-all duration-300 whitespace-nowrap ${
-              isOpen ? "gap-3 justify-start" : "gap-0 justify-center"
-            }`}
-          >
-            <LogOut size={20} />
-            <span
-              className={`
-              transition-all duration-300 ease-in-out
-              ${isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 transition-opacity duration-300 "}
-            `}
+          {/* Footer */}
+          <div className="flex flex-col border-t border-rose-500/40 pt-4 text-neutral-100">
+            {/* Profile */}
+            <div className="mb-2 flex items-center gap-2">
+              <div className="flex min-h-10 min-w-10 items-center justify-center rounded-full border border-rose-500/60 text-[24px] font-bold text-rose-500">
+                {user?.username[0].toUpperCase()}
+              </div>
+              <div
+                className={`overflow-hidden font-medium whitespace-nowrap transition-all duration-200 ${
+                  isOpen ? "ml-1 w-auto scale-100 opacity-100" : "opacity-0"
+                }`}
+              >
+                {user?.username}
+              </div>
+            </div>
+
+            {/* Logout */}
+            <div
+              className={`flex w-full items-center rounded-md px-2 py-1 text-red-600 transition-all duration-300 hover:bg-neutral-800 ${isOpen ? "justify-start gap-3" : "justify-center gap-0"} ${!isOpen && "mx-auto w-10"}`}
             >
-              Logout
-            </span>
+              <LogOut size={20} />
+              <span
+                className={`transition-all duration-300 ease-in-out ${
+                  isOpen ? "w-auto opacity-100" : "w-0 opacity-0"
+                }`}
+              >
+                Logout
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
