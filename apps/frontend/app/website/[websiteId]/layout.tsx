@@ -11,11 +11,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen min-w-screen flex bg-neutral-900">
+    <div className="flex min-h-screen min-w-screen bg-neutral-900">
       <div className="flex">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
       </div>
-      <div className="flex w-full">
+      <div
+        className={`flex w-full ${
+          isSidebarOpen ? "sm:ml-[240px]" : "sm:ml-[75px]"
+        }`}
+      >
         {children}
       </div>
     </div>
