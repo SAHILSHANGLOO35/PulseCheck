@@ -6,7 +6,10 @@ import axios from "axios";
 
 const websiteRouter = Router();
 
-websiteRouter.post("/add-website", authMiddleware, async (req: Request, res: Response) => {
+websiteRouter.post(
+  "/add-website",
+  authMiddleware,
+  async (req: Request, res: Response) => {
     try {
       const { url, name } = req.body;
 
@@ -23,8 +26,10 @@ websiteRouter.post("/add-website", authMiddleware, async (req: Request, res: Res
         newWebsite,
       });
     } catch (error) {
-      // @ts-ignore
-      console.error("Failed to add website:", error.response?.data ||  error.message
+      console.error(
+        "Failed to add website:",
+        // @ts-ignore
+        error.response?.data || error.message
       );
       res.status(500).json({
         message: "Error while adding website",
@@ -34,7 +39,10 @@ websiteRouter.post("/add-website", authMiddleware, async (req: Request, res: Res
   }
 );
 
-websiteRouter.get("/status/websites/:websiteId", authMiddleware, async (req: Request, res: Response) => {
+websiteRouter.get(
+  "/status/websites/:websiteId",
+  authMiddleware,
+  async (req: Request, res: Response) => {
     try {
       const website = await prisma.website.findFirst({
         where: {
@@ -43,9 +51,11 @@ websiteRouter.get("/status/websites/:websiteId", authMiddleware, async (req: Req
         },
         include: {
           ticks: {
-            orderBy: [{
-              createdAt: "desc",
-            }],
+            orderBy: [
+              {
+                createdAt: "desc",
+              },
+            ],
             take: 10,
           },
         },
@@ -56,9 +66,12 @@ websiteRouter.get("/status/websites/:websiteId", authMiddleware, async (req: Req
         return;
       }
 
-      res
-        .status(200)
-        .json({ url: website.url, id: website.id, user_id: website.user_id });
+      res.status(200).json({
+        url: website.url,
+        name: website.name,
+        id: website.id,
+        user_id: website.user_id,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Server failure", error });
@@ -73,41 +86,72 @@ websiteRouter.get("/", authMiddleware, async (req: Request, res: Response) => {
     },
     include: {
       ticks: {
-        orderBy: [{
-          createdAt: "desc"
-        }],
-        take: 1
-      }
-    }
+        orderBy: [
+          {
+            createdAt: "desc",
+          },
+        ],
+        take: 1,
+      },
+    },
   });
 
   res.status(200).json({ websites });
 });
 
-websiteRouter.get("/og-image", authMiddleware, async (req: Request, res: Response) => {
-  const url = req.query.url as string;
+websiteRouter.get(
+  "/og-image",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    const url = req.query.url as string;
 
-  const urlPattern = /^https?:\/\//i;
+    const urlPattern = /^https?:\/\//i;
 
-  if (typeof url !== "string" || !urlPattern.test(url)) {
-    res.status(400).json({ error: "Invalid URL format. Must start with http:// or https://" });
-    return;
-  }
-
-  try {
-    const { data: html } = await axios.get(url);
-    const $ = cheerio.load(html);
-    const ogImage = $('meta[property="og:image"]').attr("content");
-
-    if (!ogImage) {
-      res.status(404).json({ error: "OG image not found" });
+    if (typeof url !== "string" || !urlPattern.test(url)) {
+      res.status(400).json({
+        error: "Invalid URL format. Must start with http:// or https://",
+      });
       return;
     }
 
-    res.json({ ogImage });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch OG Image", details: error });
+    try {
+      const { data: html } = await axios.get(url);
+      const $ = cheerio.load(html);
+
+      // Extract OG image
+      let ogImage = $('meta[property="og:image"]').attr("content") || null;
+      if (ogImage && !ogImage.startsWith("http")) {
+        ogImage = new URL(ogImage, url).href; // make absolute
+      }
+
+      // Extract meta description (og:description or normal description)
+      let metaDescription =
+        $('meta[property="og:description"]').attr("content") ||
+        $('meta[name="description"]').attr("content") ||
+        null;
+
+      // Extract possible logo image (src or alt contains "logo")
+      let logo =
+        $('img[src*="logo" i]').attr("src") ||
+        $('img[alt*="logo" i]').attr("src") ||
+        null;
+      if (logo && !logo.startsWith("http")) {
+        logo = new URL(logo, url).href; // make absolute
+      }
+
+      res.json({
+        ogImage,
+        metaDescription,
+        logo,
+      });
+    } catch (error) {
+      console.error("OG image fetch error:", error);
+      res.status(500).json({
+        error: "Failed to fetch website metadata.",
+        details: (error as Error).message,
+      });
+    }
   }
-});
+);
 
 export default websiteRouter;
