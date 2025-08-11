@@ -121,28 +121,52 @@ websiteRouter.get(
       // Extract OG image
       let ogImage = $('meta[property="og:image"]').attr("content") || null;
       if (ogImage && !ogImage.startsWith("http")) {
-        ogImage = new URL(ogImage, url).href; // make absolute
+        ogImage = new URL(ogImage, url).href;
       }
 
-      // Extract meta description (og:description or normal description)
+      // Extract meta description
       let metaDescription =
         $('meta[property="og:description"]').attr("content") ||
         $('meta[name="description"]').attr("content") ||
         null;
 
-      // Extract possible logo image (src or alt contains "logo")
+      // Extract possible logo image
       let logo =
         $('img[src*="logo" i]').attr("src") ||
         $('img[alt*="logo" i]').attr("src") ||
         null;
       if (logo && !logo.startsWith("http")) {
-        logo = new URL(logo, url).href; // make absolute
+        logo = new URL(logo, url).href;
+      }
+
+      // Extract favicon
+      let favicon =
+        $('link[rel="icon"]').attr("href") ||
+        $('link[rel="shortcut icon"]').attr("href") ||
+        $('link[rel="apple-touch-icon"]').attr("href") ||
+        $('link[rel="apple-touch-icon-precomposed"]').attr("href") ||
+        null;
+
+      // If favicon path is relative, make it absolute
+      if (favicon && !favicon.startsWith("http")) {
+        favicon = new URL(favicon, url).href;
+      }
+
+      // Fallback: default favicon.ico at root
+      if (!favicon) {
+        favicon = new URL("/favicon.ico", url).href;
+      }
+
+      // If logo not found, use favicon
+      if (!logo) {
+        logo = favicon;
       }
 
       res.json({
         ogImage,
         metaDescription,
         logo,
+        favicon, // also send favicon separately if needed
       });
     } catch (error) {
       console.error("OG image fetch error:", error);

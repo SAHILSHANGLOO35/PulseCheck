@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { ChevronRight, ExternalLink } from "lucide-react";
+import { ChevronRight, ExternalLink, ImageOffIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,6 +12,7 @@ interface WebsiteData {
   ogImage?: string;
   metaDescription?: string;
   logo?: string | null;
+  favicon?: string | null;
 }
 
 // Skeleton Loading Component
@@ -20,7 +21,7 @@ const SkeletonLoader = () => (
     {/* Website Meta Info Skeleton */}
     <div className="flex w-full flex-col justify-center gap-2 py-6 pr-2 pl-14 text-neutral-200 sm:px-8">
       {/* Logo Skeleton */}
-      <div className="mb-4 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-neutral-600 bg-neutral-700/50">
+      <div className="mb-4 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-neutral-700/50">
         <div className="h-full w-full animate-pulse rounded-full bg-neutral-600/50" />
       </div>
 
@@ -105,6 +106,7 @@ export default function Page() {
           ogImage: ogRes.data?.ogImage || undefined,
           metaDescription: ogRes.data?.metaDescription || undefined,
           logo: ogRes.data?.logo || undefined,
+          favicon: ogRes.data?.favicon || undefined,
         });
       } catch (error) {
         console.error(error);
@@ -118,7 +120,7 @@ export default function Page() {
 
   return (
     <div className="relative flex min-h-screen min-w-full flex-1 p-2">
-      <div className="font-poppins flex min-h-full w-full flex-col overflow-hidden rounded-sm border border-rose-500/40">
+      <div className="font-poppins flex min-h-full w-full flex-col overflow-hidden rounded-sm border border-rose-500/40 transition-all duration-300">
         {/* Topbar */}
         <div className="flex min-h-14 w-full items-center justify-between gap-2 border-b border-rose-500/40 py-2 pr-2 pl-14 text-neutral-100 text-shadow-white/10 text-shadow-xs sm:flex-row sm:items-center sm:px-8">
           <div className="flex items-center justify-center gap-3">
@@ -128,10 +130,10 @@ export default function Page() {
             >
               Your Websites
             </div>
-            <div className="text-neutral-500">
+            <div className="text-neutral-500 max-md:hidden">
               <ChevronRight size={18} />
             </div>
-            <div className="text-[15px] text-[#5B5B5D] select-none max-md:hidden">
+            <div className="text-[15px] text-neutral-500 select-none max-md:hidden">
               {website?.name || "Loading..."}
             </div>
           </div>
@@ -145,11 +147,17 @@ export default function Page() {
             <>
               {/* Website Meta Info */}
               <div className="flex w-full flex-col justify-center gap-2 py-6 pr-2 pl-14 text-neutral-200 sm:px-8">
-                <div className="mb-4 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-neutral-600">
+                <div className="mb-4 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full">
                   {website?.logo ? (
                     <img
                       src={website.logo}
                       alt="Logo"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : website?.favicon ? (
+                    <img
+                      src={website.favicon}
+                      alt="Favicon"
                       className="h-full w-full object-cover"
                     />
                   ) : (
@@ -193,9 +201,14 @@ export default function Page() {
                           className="h-full w-full rounded-sm object-cover"
                         />
                       ) : (
-                        <span className="text-sm text-white">
-                          No image found
-                        </span>
+                        <div className="flex w-full flex-col items-center justify-center gap-4">
+                          <span>
+                            <ImageOffIcon size={40} />
+                          </span>
+                          <span className="text-md text-white">
+                            No Opengraph Image found
+                          </span>
+                        </div>
                       )}
                     </div>
                   </div>

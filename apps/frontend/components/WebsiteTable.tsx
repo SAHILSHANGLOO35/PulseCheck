@@ -402,10 +402,10 @@ export default function WebsitesTable() {
 
         {/* Desktop Table View */}
         {filteredWebsites.length > 0 && (
-          <div className="hidden overflow-hidden rounded-sm border border-neutral-700/50 bg-neutral-900 md:block">
+          <div className="hidden overflow-hidden rounded-sm border-t border-r border-l border-neutral-700/50 bg-neutral-900 md:block">
             <div className="overflow-x-auto">
               <table className="min-w-full table-auto">
-                <thead className="border-b border-neutral-700 bg-neutral-900">
+                <thead className="border-b border-neutral-700/80 bg-neutral-900">
                   <tr>
                     <th className="min-w-[150px] py-4 pl-4 text-left text-sm font-medium text-neutral-400">
                       Website Name
@@ -429,7 +429,7 @@ export default function WebsitesTable() {
                   {paginatedData.map((website: any, index: number) => (
                     <tr
                       key={index}
-                      className="cursor-pointer border-b border-neutral-700 transition-colors duration-200 hover:bg-neutral-950/30"
+                      className="cursor-pointer border-b border-neutral-700/50 transition-colors duration-200 hover:bg-neutral-950/30"
                     >
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2">
