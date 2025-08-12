@@ -22,7 +22,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-neutral-900">
+    <div className="flex h-screen w-screen overflow-y-scroll bg-neutral-900">
       {/* Hamburger Menu Button - Only visible on mobile */}
       <div className="fixed top-4 left-4 z-50 sm:hidden">
         <button

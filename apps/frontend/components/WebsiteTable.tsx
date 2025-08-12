@@ -12,6 +12,104 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
+
+type Website = {
+  status: "Up" | "Down" | "Checking";
+};
+
+function CompactStatusGauge({ websites = [] }: { websites?: Website[] }) {
+  // Calculate website statistics
+  const totalSites = websites.length;
+  const upSites = websites.filter((site) => site.status === "Up").length;
+  const downSites = websites.filter((site) => site.status === "Down").length;
+  const checkingSites = websites.filter(
+    (site) => site.status === "Checking",
+  ).length;
+
+  // Calculate uptime percentage
+  const uptimePercentage = totalSites > 0 ? (upSites / totalSites) * 100 : 0;
+
+  // Circle metrics
+  const radius = 60;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDasharray = circumference;
+  const strokeDashoffset =
+    circumference - (uptimePercentage / 100) * circumference;
+
+  return (
+    <div className="w-64 rounded-lg border border-neutral-700/50 bg-neutral-900 px-6 py-4">
+      {/* Header */}
+      <h3 className="mb-6 text-center text-lg font-semibold text-white">
+        Current Status
+      </h3>
+
+      {/* Circular Progress */}
+      <div className="mb-6 flex justify-center">
+        <div className="relative">
+          <motion.svg width="140" height="140" className="-rotate-90 transform">
+            {/* Background circle */}
+            <circle
+              cx="70"
+              cy="70"
+              r={radius}
+              stroke="rgb(64 64 64)"
+              strokeWidth="14"
+              fill="none"
+              className="opacity-30"
+            />
+            {/* Progress circle */}
+            <motion.circle
+              cx="70"
+              cy="70"
+              r={radius}
+              stroke="#22c55e"
+              strokeWidth="14"
+              fill="none"
+              strokeDasharray={strokeDasharray}
+              strokeLinecap="round"
+              animate={{
+                strokeDashoffset: strokeDashoffset,
+              }}
+              initial={{
+                strokeDashoffset: circumference,
+              }}
+              transition={{
+                duration: 1,
+                ease: "easeOut",
+              }}
+            />
+          </motion.svg>
+
+          {/* Center content */}
+          <div className="absolute inset-0 flex items-center justify-center gap-2">
+            <div className="mb-1 text-4xl font-semibold text-white">
+              {upSites}
+            </div>
+            <div className="text-sm font-medium text-neutral-300">Up</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="mb-4 flex items-center justify-center gap-4">
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded-sm bg-green-500"></div>
+          <span className="text-sm text-white">Up</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded-sm bg-red-700"></div>
+          <span className="text-sm text-white">Down</span>
+        </div>
+      </div>
+
+      {/* Status Text */}
+      <p className="text-center text-sm text-neutral-400">
+        {upSites} sites out of {totalSites} are Up
+      </p>
+    </div>
+  );
+}
 
 const ROWS_PER_PAGE = 5;
 
@@ -142,7 +240,7 @@ const MobileWebsiteCard = ({
 
 // Generate skeleton rows
 const SkeletonRow = () => (
-  <tr className="border-b border-neutral-700 transition-colors duration-200 hover:bg-neutral-950/30">
+  <tr className="border-b border-neutral-700/50 transition-colors duration-200 hover:bg-neutral-950/30">
     {/* Website Name */}
     <td className="min-w-[150px] px-4 py-4">
       <div className="flex items-center gap-2">
@@ -188,20 +286,52 @@ const LoadingSkeleton = () => {
   ));
 
   return (
-    <div className="mt-4 h-full w-full bg-neutral-900 py-4">
+    <div className="h-full w-full bg-neutral-900 py-4 sm:py-6 lg:py-8">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
-          <div className="mb-6 flex flex-col">
-            <h1 className="text-2xl font-semibold tracking-wide text-white sm:text-3xl lg:text-4xl">
-              Monitor your Websites
-            </h1>
-            <p className="text-sm text-neutral-400 sm:text-base">
-              Track and monitor your websites
-            </p>
-          </div>
+        <div className="mb-6 flex flex-col">
+          <h1 className="text-2xl font-semibold tracking-wide text-white sm:text-3xl lg:text-4xl">
+            Monitor your Websites
+          </h1>
+          <p className="text-sm text-neutral-400 sm:text-base">
+            Track and monitor your websites
+          </p>
+        </div>
 
-          {/* Search bar skeleton */}
-          <div className="relative flex w-full items-start text-neutral-100 lg:w-auto">
+        {/* Compact Status Gauge Skeleton */}
+        <div className="mb-6 flex flex-col space-y-4 text-neutral-50 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+          <div className="w-64 animate-pulse rounded-lg border border-neutral-700/50 bg-neutral-900 px-6 py-4">
+            <h3 className="mb-6 text-center text-lg font-semibold text-white">
+              <Skeleton width="w-32" className="mx-auto" />
+            </h3>
+            <div className="mb-6 flex justify-center">
+              <div className="relative">
+                <div className="h-[140px] w-[140px] rounded-full bg-neutral-800 opacity-30"></div>
+                <div className="absolute inset-0 flex items-center justify-center gap-2">
+                  <Skeleton width="w-16" className="h-8" />
+                  <Skeleton width="w-8" className="h-4" />
+                </div>
+              </div>
+            </div>
+            <div className="mb-4 flex items-center justify-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-sm bg-neutral-800"></div>
+                <Skeleton width="w-10" />
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-sm bg-neutral-800"></div>
+                <Skeleton width="w-10" />
+              </div>
+            </div>
+            <Skeleton width="w-48" className="mx-auto" />
+          </div>
+        </div>
+
+        {/* Search bar skeleton */}
+        <div className="mb-6 flex justify-start">
+          <div
+            title="Press / to search"
+            className="relative flex w-full items-start text-neutral-100 md:w-96"
+          >
             <Search
               className="absolute top-1/2 left-3 -translate-y-1/2 animate-pulse text-neutral-600"
               size={20}
@@ -210,7 +340,7 @@ const LoadingSkeleton = () => {
               <Skeleton width="w-32" className="mt-1" />
             </div>
             <div className="absolute top-1/2 right-1.5 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-sm bg-neutral-800">
-              <span className="rotate-12 animate-pulse font-semibold text-neutral-600">
+              <span className="rotate-12 font-semibold text-neutral-600">
                 /
               </span>
             </div>
@@ -218,10 +348,10 @@ const LoadingSkeleton = () => {
         </div>
 
         {/* Desktop table skeleton */}
-        <div className="hidden overflow-hidden rounded-sm border border-neutral-700/50 bg-neutral-900 md:block">
+        <div className="hidden overflow-hidden rounded-sm border-t border-r border-l border-neutral-700/50 bg-neutral-900 md:block">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-full">
-              <thead className="border-b border-neutral-700 bg-neutral-900">
+            <table className="min-w-full table-auto">
+              <thead className="border-b border-neutral-700/80 bg-neutral-900">
                 <tr>
                   <th className="min-w-[150px] py-4 pl-4 text-left text-sm font-medium text-neutral-400">
                     Website Name
@@ -251,11 +381,11 @@ const LoadingSkeleton = () => {
           {Array.from({ length: 3 }, (_, index) => (
             <div
               key={index}
-              className="space-y-3 rounded-lg border border-neutral-700 bg-neutral-800/50 p-4"
+              className="animate-pulse space-y-3 rounded-lg border border-neutral-700 bg-neutral-800/50 p-4"
             >
               <div className="flex items-center justify-between">
                 <Skeleton width="w-32" />
-                <Skeleton width="w-16 h-6 rounded-full" />
+                <Skeleton width="w-16" className="h-6 rounded-full" />
               </div>
               <div className="space-y-2">
                 <Skeleton width="w-full" />
@@ -267,10 +397,10 @@ const LoadingSkeleton = () => {
         </div>
 
         {/* Pagination Controls Skeleton */}
-        <div className="mt-4 flex flex-col gap-4 text-sm text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-4 text-sm text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
           <span className="flex items-center gap-1">
-            Showing <Skeleton width="w-4" className="inline-block" /> of{" "}
-            <Skeleton width="w-4" className="inline-block" /> websites
+            Showing <Skeleton width="w-8" className="inline-block" /> of{" "}
+            <Skeleton width="w-8" className="inline-block" /> websites
           </span>
           <div className="flex justify-center space-x-2 sm:justify-end">
             <button
@@ -279,6 +409,9 @@ const LoadingSkeleton = () => {
             >
               Prev
             </button>
+            <span className="flex items-center px-3 py-1 text-neutral-400">
+              <Skeleton width="w-12" className="inline-block" />
+            </span>
             <button
               disabled
               className="animate-pulse rounded bg-neutral-800 px-3 py-1 text-neutral-600 opacity-40"
@@ -359,18 +492,24 @@ export default function WebsitesTable() {
   return (
     <div className="h-full w-full bg-neutral-900 py-4 sm:py-6 lg:py-8">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
-          <div className="flex flex-col">
-            <h1 className="text-2xl font-semibold tracking-wide text-white sm:text-3xl lg:text-4xl">
-              Monitor your Websites
-            </h1>
-            <p className="text-sm text-neutral-400 sm:text-base">
-              Track and monitor your websites
-            </p>
-          </div>
+        <div className="mb-6 flex flex-col">
+          <h1 className="text-2xl font-semibold tracking-wide text-white sm:text-3xl lg:text-4xl">
+            Monitor your Websites
+          </h1>
+          <p className="text-sm text-neutral-400 sm:text-base">
+            Track and monitor your websites
+          </p>
+        </div>
+
+        <div className="mb-6 flex flex-col space-y-4 text-neutral-50 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+          <CompactStatusGauge websites={websites} />
+        </div>
+
+        {/* Search Bar - Moved here to stay near the table */}
+        <div className="mb-6 flex justify-start">
           <div
             title="Press / to search"
-            className="relative flex w-full items-start text-neutral-100 lg:w-auto"
+            className="relative flex w-full items-start text-neutral-100 md:w-96"
           >
             <Search
               className="absolute top-1/2 left-3 -translate-y-1/2 text-neutral-400"
@@ -430,6 +569,7 @@ export default function WebsitesTable() {
                     <tr
                       key={index}
                       className="cursor-pointer border-b border-neutral-700/50 transition-colors duration-200 hover:bg-neutral-950/30"
+                      onClick={() => router.push(`/website/${website.id}`)}
                     >
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2">
