@@ -1,6 +1,12 @@
 "use client";
 import { useAuth } from "@/hooks/useAuth";
-import { FolderGit2, LogOut, PanelLeftClose, Settings } from "lucide-react";
+import {
+  ChartSpline,
+  FolderGit2,
+  LogOut,
+  PanelLeftClose,
+  Settings,
+} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -12,6 +18,7 @@ interface SidebarOpenClose {
 export default function Sidebar({ isOpen, onClose }: SidebarOpenClose) {
   const sidebarItems = [
     { icon: FolderGit2, itemName: "Websites", href: "/websites" },
+    { icon: ChartSpline, itemName: "Status Page", href: "/settings" },
     { icon: Settings, itemName: "Settings", href: "/settings" },
   ];
 

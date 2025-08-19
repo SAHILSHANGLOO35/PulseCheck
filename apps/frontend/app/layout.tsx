@@ -25,13 +25,12 @@ const pacifico = Pacifico({
   weight: ["400"], // Add weights you need
 });
 
-
 export const metadata: Metadata = {
   title: "PulseCheck",
   description: "Created by doubleSdotdev",
   icons: {
-    icon: "/PulseIcon.png"
-  }
+    icon: "/PulseIcon.png",
+  },
 };
 
 export default function RootLayout({
@@ -41,12 +40,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${pacifico.variable} antialiased`}
       >
-        <WebsiteProvider>
-          {children}
-        </WebsiteProvider>
+        <WebsiteProvider>{children}</WebsiteProvider>
       </body>
     </html>
   );
