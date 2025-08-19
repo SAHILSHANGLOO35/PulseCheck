@@ -115,7 +115,13 @@ websiteRouter.get(
     }
 
     try {
-      const { data: html } = await axios.get(url);
+      const { data: html } = await axios.get(url, {
+        timeout: 10000, // 10 second timeout
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        },
+      });
       const $ = cheerio.load(html);
 
       // Extract OG image
@@ -163,15 +169,23 @@ websiteRouter.get(
       }
 
       res.json({
+        status: "up",
         ogImage,
         metaDescription,
         logo,
-        favicon, // also send favicon separately if needed
+        favicon,
       });
     } catch (error) {
       console.error("OG image fetch error:", error);
-      res.status(500).json({
-        error: "Failed to fetch website metadata.",
+
+      // Instead of returning 500, return a structured response indicating the website is down
+      res.json({
+        status: "down",
+        ogImage: null,
+        metaDescription: null,
+        logo: null,
+        favicon: null,
+        error: "Website appears to be down or unreachable",
         details: (error as Error).message,
       });
     }
