@@ -146,6 +146,9 @@ export default function Home() {
           </div>
           <div className="absolute inset-0 flex items-center justify-center mask-b-from-90%">
             <div className="relative flex h-[500px] w-[500px] items-center justify-center">
+              {/* <div className="hidden md:block">
+                <Globe className="z-10" />
+              </div> */}
               {/* Orbital Ring 1 - Closest orbit */}
               <div className="absolute hidden items-center justify-center md:flex">
                 <div className="h-[600px] w-[600px] rounded-full border border-white/25">
@@ -361,7 +364,7 @@ export default function Home() {
           </div>
 
           {/* Hero Content */}
-          <div className="absolute top-32 flex w-full flex-col items-center justify-center px-4 md:top-48 md:flex-row md:px-0">
+          <div className="absolute top-50 flex w-full flex-col items-center justify-center px-4 md:top-48 md:flex-row md:px-0">
             <div className="flex max-w-[90%] flex-col gap-6 text-center sm:max-w-[550px] md:text-left">
               <motion.span
                 className="bg-gradient-to-r from-orange-200 via-red-300 to-pink-400 bg-clip-text text-4xl font-semibold tracking-tight text-transparent sm:text-5xl md:text-7xl"
@@ -484,12 +487,12 @@ export default function Home() {
                 />
               </div>
               <div
-                className="relative mt-8 grid auto-rows-[180px] grid-cols-1 gap-4 md:absolute md:mt-0 md:min-w-4xl md:grid-cols-4"
+                className="relative mt-8 grid auto-rows-[180px] grid-cols-1 md:absolute md:mt-0 md:min-w-4xl md:grid-cols-4 md:gap-4"
                 ref={scrollRef}
               >
                 {/* 1st Card */}
                 <motion.div
-                  className="relative col-span-1 row-span-2 flex flex-col items-center overflow-hidden rounded-xl px-4 shadow-xl backdrop-blur-md backdrop-filter sm:col-span-2"
+                  className="relative col-span-1 row-span-2 mb-4 flex flex-col items-center overflow-hidden rounded-xl px-4 py-4 shadow-xl backdrop-blur-md backdrop-filter sm:col-span-2 md:mb-0 md:h-auto"
                   style={{
                     background: `
                       radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
@@ -594,7 +597,7 @@ export default function Home() {
 
                 {/* 2nd card */}
                 <motion.div
-                  className="relative col-span-2 row-span-1 flex flex-col items-center overflow-hidden rounded-xl shadow-xl backdrop-blur-md backdrop-filter"
+                  className="relative col-span-2 row-span-1 flex h-52 flex-col items-center overflow-hidden rounded-xl shadow-xl backdrop-blur-md backdrop-filter md:h-auto"
                   style={{
                     background: `
                       radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
@@ -669,7 +672,7 @@ export default function Home() {
 
                 {/* 3rd Card */}
                 <motion.div
-                  className="relative col-span-2 row-span-1 flex flex-col items-center overflow-hidden rounded-xl shadow-xl backdrop-blur-md backdrop-filter"
+                  className="relative col-span-2 row-span-1 mt-11 flex h-52 flex-col items-center overflow-hidden rounded-xl shadow-xl backdrop-blur-md backdrop-filter md:mt-0 md:h-auto"
                   style={{
                     background: `
                       radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
@@ -747,7 +750,7 @@ export default function Home() {
         </section>
 
         {/* How It Works Section */}
-        <section className="relative flex min-h-screen items-center px-4 pt-16 sm:px-8 sm:pt-32 md:px-16 lg:px-28">
+        <section className="relative flex min-h-screen items-center px-4 pt-32 sm:px-8 sm:pt-32 md:px-16 lg:px-28">
           <div className="mx-auto flex w-full flex-col items-center justify-center">
             {/* Heading */}
             <div className="flex text-center">
@@ -940,7 +943,7 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section className="relative flex min-h-screen items-center px-4 pt-20 sm:px-8 md:px-16 md:pt-32 lg:px-28">
+        <section className="relative flex min-h-screen items-center px-4 pt-32 sm:px-8 md:px-16 md:pt-32 lg:px-28">
           <div className="mx-auto flex w-full flex-col items-center justify-center px-2 sm:px-4">
             {/* Heading Section */}
             <motion.div
@@ -1043,7 +1046,7 @@ export default function Home() {
         </section>
 
         {/* Footer Section */}
-        <section className="relative mb-[320px] flex min-h-screen min-w-screen items-center justify-center px-4 sm:px-8 sm:pt-32 md:mb-[500px] md:px-28">
+        <section className="relative mt-6 mb-[280px] flex min-h-screen min-w-screen items-center justify-center px-4 sm:px-8 sm:pt-32 md:mb-[500px] md:px-28">
           {/* Gradient backgrounds */}
           <div
             className="absolute top-0 left-1/2 h-32 w-[700px] -translate-x-1/2 rotate-180 rounded-t-full bg-gradient-to-b from-black via-neutral-900/15 to-transparent opacity-60 blur-3xl"
@@ -1311,7 +1314,7 @@ export default function Home() {
           </motion.div>
 
           {/* Large text at bottom */}
-          <div className="absolute -bottom-70 flex w-full items-center justify-center px-4 md:-bottom-115">
+          <div className="absolute -bottom-65 flex w-full items-center justify-center px-4 md:-bottom-115">
             <motion.div
               className="z-50 mx-auto w-full text-center text-[2.5rem] font-bold tracking-tighter text-shadow-lg/95 text-shadow-neutral-800/70 sm:text-[6rem] md:text-[8rem] md:leading-none lg:text-[15rem]"
               style={{
