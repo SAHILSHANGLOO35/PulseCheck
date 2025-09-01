@@ -146,9 +146,9 @@ export default function Home() {
           </div>
           <div className="absolute inset-0 flex items-center justify-center mask-b-from-90%">
             <div className="relative flex h-[500px] w-[500px] items-center justify-center">
-              {/* <div className="hidden md:block">
+              <div className="hidden md:block">
                 <Globe className="z-10" />
-              </div> */}
+              </div>
               {/* Orbital Ring 1 - Closest orbit */}
               <div className="absolute hidden items-center justify-center md:flex">
                 <div className="h-[600px] w-[600px] rounded-full border border-white/25">
