@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   creator: "doubleSdotdev",
   publisher: "PulseCheck",
   icons: {
-    icon: "/PulseIcon.png",
-    shortcut: "/PulseIcon.png",
-    apple: "/PulseIcon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   openGraph: {
     title: "PulseCheck - Real-time Website Monitoring",
