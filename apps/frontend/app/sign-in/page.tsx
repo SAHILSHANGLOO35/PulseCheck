@@ -92,7 +92,7 @@ const Signin = () => {
           </div>
           <div className="mb-4 flex items-center justify-center">
             <Image
-              src="/pulseIcon.png"
+              src="/PulseIcon.png"
               alt="Pulse Icon png"
               height={100}
               width={100}

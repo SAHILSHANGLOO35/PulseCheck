@@ -26,11 +26,53 @@ const pacifico = Pacifico({
 });
 
 export const metadata: Metadata = {
-  title: "PulseCheck",
-  description: "Created by doubleSdotdev",
+  title: "PulseCheck | Website Monitoring Tool",
+  description:
+    "PulseCheck is a powerful website monitoring tool that tracks uptime, performance, and anomalies in real time with instant alerts.",
+  keywords: [
+    "PulseCheck",
+    "website monitoring",
+    "uptime monitoring",
+    "performance tracking",
+    "server health",
+    "real-time alerts",
+    "monitor website downtime",
+  ],
+  authors: [{ name: "doubleSdotdev", url: "https://doublesdotdev.me" }],
+  creator: "doubleSdotdev",
+  publisher: "PulseCheck",
   icons: {
     icon: "/PulseIcon.png",
+    shortcut: "/PulseIcon.png",
+    apple: "/PulseIcon.png",
   },
+  openGraph: {
+    title: "PulseCheck - Real-time Website Monitoring",
+    description:
+      "Stay ahead with PulseCheck. Monitor uptime, detect anomalies, and get instant alerts for your website's health.",
+    url: "https://pulse-check-beryl.vercel.app/",
+    siteName: "PulseCheck",
+    images: [
+      {
+        url: "/og-image.png", // Add this image in /public for social sharing
+        width: 1200,
+        height: 630,
+        alt: "PulseCheck Website Monitoring Dashboard",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PulseCheck - Real-time Website Monitoring",
+    description:
+      "PulseCheck helps you monitor uptime, detect anomalies, and get instant alerts to keep your website healthy.",
+    images: ["/og-image.png"], // same as OpenGraph
+    creator: "@doubleSdotdev",
+  },
+  metadataBase: new URL("https://pulse-check-beryl.vercel.app/"),
+  category: "technology",
 };
 
 export default function RootLayout({
